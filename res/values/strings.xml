@@ -1,0 +1,24 @@
+<resources>
+<!-- English -->
+    <string name="app_name">Pixplorer</string>
+    
+<!--  search  -->
+    <string name="speak_now">Speak now</string>
+    
+<!--  Drawer  -->
+	<string name="explore">Explore</string>
+    <string name="favorite">Favorite</string>
+    <string name="quest">Quest</string>
+    <string name="trophy">Trophy</string>
+    <string name="highscore">Highscore</string>
+    <string name="setting">Settings</string>
+    <string name="pref">Preferences</string>
+    <string name="help">Help</string>
+    <string name="logout">Log Out</string>
+    
+<!--  Details  -->
+    <string name="wiki">Wikipedia Entry</string>
+    <string name="points">Reward for this:</string>
+      
+
+</resources>
