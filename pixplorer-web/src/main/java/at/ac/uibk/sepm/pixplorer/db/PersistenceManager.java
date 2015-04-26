@@ -42,7 +42,7 @@ public class PersistenceManager {
 	 * @param type - the class type representing the hibernate entity
 	 * @return database content or null
 	 */
-	public <T> List<T> getAll(Class<T> type) {
+	public static <T> List<T> getAll(Class<T> type) {
 		if (sessionFactory == null) {
 			logger.log(Level.SEVERE, "No session factory set!");
 			return null;
@@ -70,7 +70,7 @@ public class PersistenceManager {
 	 * @param objects - object to store
 	 * @return true if stored, false if not
 	 */
-	public boolean save(Object... objects) {
+	public static boolean save(Object... objects) {
 		if (objects == null) {
 			return false;
 		}
@@ -103,7 +103,7 @@ public class PersistenceManager {
 	 * @param objects - object to delete
 	 * @return true if stored, false if not
 	 */
-	public boolean delete(Object... objects) {
+	public static boolean delete(Object... objects) {
 		if (objects == null) {
 			return false;
 		}
