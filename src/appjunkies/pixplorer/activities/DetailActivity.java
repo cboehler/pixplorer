@@ -79,6 +79,13 @@ public class DetailActivity extends ActionBarActivity {
     boolean featured= false;
     boolean ISfavorite =false;
     
+    public interface Listener {
+		public void givePoints(int mpoints);
+    }
+    
+    Listener mListener = null;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

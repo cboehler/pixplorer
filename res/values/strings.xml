@@ -19,6 +19,19 @@
 <!--  Details  -->
     <string name="wiki">Wikipedia Entry</string>
     <string name="points">Reward for this:</string>
-      
+    
+    
+    
+<!-- LOGIN -->
+	<string name="login">Login</string>
+	<string name="pleaseLogin">Please Login</string>
+	<string name="login_neccessary">You need to login with Google+ in order to use the Gameservice of this app</string>	 
+	<string name="signin_failure">SignIn failed</string>
+	<string name="signin_other_error">SignIn error</string>
+	
+<!-- Achievments and Leadboards -->	
+	<string name="achievement">Achievement</string>
+	<string name="achievements_not_available">Please sign in to view achievements.</string>
+    <string name="leaderboards_not_available">Please sign in to view leaderboards.</string>
 
 </resources>

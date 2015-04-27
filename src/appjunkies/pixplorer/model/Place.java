@@ -6,16 +6,22 @@ import android.graphics.Bitmap;
 import android.support.v7.graphics.Palette;
 import appjunkies.pixplorer.other.Utils;
 
+/**
+ * @author emme
+ *
+ */
 public class Place implements Serializable {
 
     private int ID;
     private String image_src;
     private boolean featured =false; //INFO featured means these are Places for QUEST Section
     private boolean favorite =false; // only for App not for server
+    private boolean found=false;//for profilactivity
     private int category;
     private int points;
     private String name;
     private String wikipedia_entry;
+   
     
     private Bitmap image_bmp;
     
@@ -96,6 +102,22 @@ public class Place implements Serializable {
 	 */
 	public void setPoints(int points) {
 		this.points = points;
+	}
+
+	/**
+	 * indicates if the Place is a found one
+	 * @return
+	 */
+	public boolean isFound() {
+		return found;
+	}
+
+	/**
+	 * sets the Place as found
+	 * @param found
+	 */
+	public void setFound(boolean found) {
+		this.found = found;
 	}
 
 	public String getColor() {

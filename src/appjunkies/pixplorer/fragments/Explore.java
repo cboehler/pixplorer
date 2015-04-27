@@ -361,6 +361,7 @@
 
 package appjunkies.pixplorer.fragments;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -387,11 +388,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import appjunkies.pixplorer.OnItemClickListener;
 import appjunkies.pixplorer.R;
 import appjunkies.pixplorer.activities.HomeActivity;
 import appjunkies.pixplorer.database.DataPlaces;
 import appjunkies.pixplorer.model.Place;
+import appjunkies.pixplorer.network.Client;
 import appjunkies.pixplorer.other.FontAwesomeFont;
 import appjunkies.pixplorer.view.adapter.PlaceAdapter;
 
@@ -415,6 +418,7 @@ public class Explore extends Fragment
 	
 	Animation rotateIn, rotateOut;
 	FloatingActionButton shuffleFab;
+	String splace="";
 		
 	
 	@Override
@@ -444,6 +448,37 @@ public class Explore extends Fragment
         
         showAll();
         System.out.println("Show ALL first time");
+       
+        
+        //test Client
+//        
+//        Thread t = new Thread(){
+//        	public void run() {
+//        		Client client = new Client();
+//        		try {
+//        			splace=client.getPlace().getName().toString()+"\n"+
+//        					client.getPlace().getID()+"\n"+
+//        					client.getPlace().getCategory()+"\n"+
+//        					client.getPlace().getPoints()+"\n"+
+//        					client.getPlace().getUrl().toString();
+//        			System.out.println(client.getPlace().getName());
+//        			System.out.println(client.getPlace().getCategory());
+//        			System.out.println(client.getPlace().getID());
+//        			System.out.println(client.getPlace().getPoints());
+//        			System.out.println(client.getPlace().getUrl());
+//        		} catch (UnsupportedOperationException e) {
+//        			// TODO Auto-generated catch block
+//        			e.printStackTrace();
+//        		} catch (IOException e) {
+//        			// TODO Auto-generated catch block
+//        			e.printStackTrace();
+//        		}
+//        	};
+//        };
+//        t.start();
+        
+//        Toast.makeText(null, splace, Toast.LENGTH_SHORT).show();
+        
 		
 		return rootView;
 	}
@@ -817,6 +852,10 @@ public class Explore extends Fragment
         mPlaceAdapter.updateData(mCurrentPlaces);
         mPlaceRecycler.scrollToPosition(0);
     }
+    
+    
+    
+    
 	
 	
 	

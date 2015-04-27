@@ -36,6 +36,7 @@
 	-libraryjars /libs/rxandroid-0.24.0.jar
 	-libraryjars /libs/rxandroid-framework-0.24.0.jar
 	-libraryjars /libs/rxjava-1.0.8.jar
+	-libraryjars /libs/gson-2.3.1.jar
 	
 	
 	-keep class *.R
@@ -61,7 +62,10 @@
 	    public static final ** CREATOR;
 	}
 	
-	-keep class com.android.vending.billing.**
-	
 	-dontwarn org.apache.**
 	-dontwarn org.apache.commons.codec.binary.Base64	
+	
+	
+	-keep class * extends java.util.ListResourceBundle {
+    protected Object[][] getContents();
+}

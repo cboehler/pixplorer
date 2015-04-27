@@ -8,10 +8,10 @@ package it.sephiroth.android.library.viewrevealanimator;
 
 public final class R {
 	public static final class attr {
-		public static final int vra_hideBeforeReveal = 0x7f0100de;
+		public static final int vra_hideBeforeReveal = 0x7f010114;
 	}
 	public static final class styleable {
-		public static final int[] ViewRelealAnimator = { 0x0101010a, 0x01010112, 0x01010141, 0x01010177, 0x01010178, 0x010102d5, 0x7f0100de };
+		public static final int[] ViewRelealAnimator = { 0x0101010a, 0x01010112, 0x01010141, 0x01010177, 0x01010178, 0x010102d5, 0x7f010114 };
 		public static final int ViewRelealAnimator_android_animateFirstView = 5;
 		public static final int ViewRelealAnimator_android_animationDuration = 1;
 		public static final int ViewRelealAnimator_android_inAnimation = 3;

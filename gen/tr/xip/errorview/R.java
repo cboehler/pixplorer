@@ -8,43 +8,43 @@ package tr.xip.errorview;
 
 public final class R {
 	public static final class attr {
-		public static final int ev_errorImage = 0x7f010004;
-		public static final int ev_errorSubtitle = 0x7f010002;
-		public static final int ev_errorSubtitleColor = 0x7f010003;
-		public static final int ev_errorTitle = 0x7f010000;
-		public static final int ev_errorTitleColor = 0x7f010001;
-		public static final int ev_retryButtonBackground = 0x7f010008;
-		public static final int ev_retryButtonTextColor = 0x7f010009;
-		public static final int ev_showRetryButton = 0x7f010007;
-		public static final int ev_showSubtitle = 0x7f010006;
-		public static final int ev_showTitle = 0x7f010005;
+		public static final int ev_errorImage = 0x7f0100e3;
+		public static final int ev_errorSubtitle = 0x7f0100e1;
+		public static final int ev_errorSubtitleColor = 0x7f0100e2;
+		public static final int ev_errorTitle = 0x7f0100df;
+		public static final int ev_errorTitleColor = 0x7f0100e0;
+		public static final int ev_retryButtonBackground = 0x7f0100e7;
+		public static final int ev_retryButtonTextColor = 0x7f0100e8;
+		public static final int ev_showRetryButton = 0x7f0100e6;
+		public static final int ev_showSubtitle = 0x7f0100e5;
+		public static final int ev_showTitle = 0x7f0100e4;
 	}
 	public static final class color {
-		public static final int error_view_retry_button_background = 0x7f050003;
-		public static final int error_view_retry_button_background_stroke = 0x7f050004;
-		public static final int error_view_text = 0x7f050000;
-		public static final int error_view_text_dark = 0x7f050001;
-		public static final int error_view_text_light = 0x7f050002;
+		public static final int error_view_retry_button_background = 0x7f08004f;
+		public static final int error_view_retry_button_background_stroke = 0x7f080050;
+		public static final int error_view_text = 0x7f08004c;
+		public static final int error_view_text_dark = 0x7f08004d;
+		public static final int error_view_text_light = 0x7f08004e;
 	}
 	public static final class drawable {
-		public static final int error_view_cloud = 0x7f02003b;
-		public static final int error_view_retry_button_background = 0x7f02003c;
+		public static final int error_view_cloud = 0x7f020055;
+		public static final int error_view_retry_button_background = 0x7f020056;
 	}
 	public static final class id {
-		public static final int error_image = 0x7f0b0058;
-		public static final int error_retry = 0x7f0b005b;
-		public static final int error_subtitle = 0x7f0b005a;
-		public static final int error_title = 0x7f0b0059;
+		public static final int error_image = 0x7f0c006d;
+		public static final int error_retry = 0x7f0c0070;
+		public static final int error_subtitle = 0x7f0c006f;
+		public static final int error_title = 0x7f0c006e;
 	}
 	public static final class layout {
 		public static final int error_view_layout = 0x7f030019;
 	}
 	public static final class string {
-		public static final int error_view_oops = 0x7f060000;
-		public static final int error_view_retry = 0x7f060001;
+		public static final int error_view_oops = 0x7f07003e;
+		public static final int error_view_retry = 0x7f07003f;
 	}
 	public static final class styleable {
-		public static final int[] ErrorView = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009 };
+		public static final int[] ErrorView = { 0x7f0100df, 0x7f0100e0, 0x7f0100e1, 0x7f0100e2, 0x7f0100e3, 0x7f0100e4, 0x7f0100e5, 0x7f0100e6, 0x7f0100e7, 0x7f0100e8 };
 		public static final int ErrorView_ev_errorImage = 4;
 		public static final int ErrorView_ev_errorSubtitle = 2;
 		public static final int ErrorView_ev_errorSubtitleColor = 3;
