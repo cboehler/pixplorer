@@ -14,14 +14,27 @@ public class Place implements Serializable {
 	private int id;
 	@Column(name = "name", nullable = false)
 	private String name;
-	@Column(name = "featured")
-	private boolean featured;
+	/*@Column(name = "featured")
+	private boolean featured;*/
 	@Column(name = "wikiLink")
 	private String wikiLink;
 	@Column(name = "count")
 	private long count;
 	@Column(name = "picture")
 	private String picture;
+	@Column(name = "category")
+	private Category category;
+	
+	public Place(){}
+	
+	public Place(String name,String wikiLink,long count, String picture,Category category){
+		this.name = name;
+		this.wikiLink = wikiLink;
+		this.count = count;
+		this.picture = picture;
+		this.category = category;
+		
+	}
 
 	@ManyToOne(cascade = CascadeType.REFRESH)
 	private Category category_id;
@@ -58,14 +71,6 @@ public class Place implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean isFeatured() {
-		return featured;
-	}
-
-	public void setFeatured(boolean featured) {
-		this.featured = featured;
 	}
 
 	public String getWikiLink() {
