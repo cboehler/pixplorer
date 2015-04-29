@@ -12,20 +12,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "categories", schema = "public")
 public class Category implements Serializable {
-	private int id;
-	
+	private int id;	
 	private String name;
-	
-	private int categoryid; // CBO: why id and categoryid
-
-	@Column(name = "categoryid")
-	public int getCategoryid() {
-		return categoryid;
-	}
-
-	public void setCategoryid(int categoryid) {
-		this.categoryid = categoryid;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,48 +2,42 @@ package at.ac.uibk.sepm.pixplorer.db;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Place", schema = "public")
 public class Place implements Serializable {
+	private int id;
+	private String name;
+	private String wikiLink;
+	private long count;
+	private String picture;
+	private Category category;
+	private GPSData gpsData;
+	
+	
+	public Place(){
+		
+	}
+	
+	public Place(String name, String wikiLink, long count, String picture, Category category){
+		this.name = name;
+		this.wikiLink = wikiLink;
+		this.count = count;
+		this.picture = picture;
+		this.category = category;
+	}
+
 	@Id
 	@GeneratedValue
-	// (strategy= GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	private int id;
-	@Column(name = "name", nullable = false)
-	private String name;
-	@Column(name = "featured")
-	private boolean featured;
-	@Column(name = "wikiLink")
-	private String wikiLink;
-	@Column(name = "count")
-	private long count;
-	@Column(name = "picture")
-	private String picture;
-
-	@ManyToOne(cascade = CascadeType.REFRESH)
-	private Category category_id;
-
-	public Category getCategory() {
-		return category_id;
-	}
-
-	public void setCategory(Category category_id) {
-		this.category_id = category_id;
-	}
-
-	// @OneToOne (cascade= CascadeType.ALL)
-	// @JoinColumn(name= "gps_id")
-	// public GPSData gps_id;
-	//
-	// public GPSData getGps_id() {
-	// return gps_id;
-	// }
-	// public void setGps_id(GPSData gps_id) {
-	// this.gps_id = gps_id;
-	// }
 	public int getId() {
 		return id;
 	}
@@ -52,6 +46,7 @@ public class Place implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -60,14 +55,7 @@ public class Place implements Serializable {
 		this.name = name;
 	}
 
-	public boolean isFeatured() {
-		return featured;
-	}
-
-	public void setFeatured(boolean featured) {
-		this.featured = featured;
-	}
-
+	@Column(name = "wikiLink")
 	public String getWikiLink() {
 		return wikiLink;
 	}
@@ -76,6 +64,7 @@ public class Place implements Serializable {
 		this.wikiLink = wikiLink;
 	}
 
+	@Column(name = "count")
 	public long getCount() {
 		return count;
 	}
@@ -84,6 +73,7 @@ public class Place implements Serializable {
 		this.count = count;
 	}
 
+	@Column(name = "picture")
 	public String getPicture() {
 		return picture;
 	}
@@ -92,4 +82,24 @@ public class Place implements Serializable {
 		this.picture = picture;
 	}
 
+	@OneToOne(cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "category")
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "gpsdata")
+	public GPSData getGpsData() {
+		return gpsData;
+	}
+	
+	public void setGpsData(GPSData gpsData) {
+		this.gpsData = gpsData;
+	}
+	
 }

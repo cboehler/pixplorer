@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/pixplorer</property>
-    <property name="hibernate.connection.username">postgres</property>
-    <property name="hibernate.connection.password">postgres</property>
-    <property name="current_session_context_class">thread</property>
-   	<property name="hbm2ddl.auto">create</property>
-   	
-    <mapping class="at.ac.uibk.sepm.pixplorer.db.Category"/>
-    <mapping class="at.ac.uibk.sepm.pixplorer.db.GPSData"/>
-    <mapping class="at.ac.uibk.sepm.pixplorer.db.Place"/>
-  </session-factory>
+ <session-factory name="">
+  <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+  <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/pixplorer</property>
+  <property name="hibernate.connection.username">christian</property>
+  <property name="hibernate.connection.password">pixplorer</property>
+  <property name="current_session_context_class">thread</property>
+  
+  <property name="hbm2ddl.auto">create</property>
+  
+  <mapping class="at.ac.uibk.sepm.pixplorer.db.Category"/>
+  <mapping class="at.ac.uibk.sepm.pixplorer.db.GPSData"/>
+  <mapping class="at.ac.uibk.sepm.pixplorer.db.Place"/>
+  <mapping class="at.ac.uibk.sepm.pixplorer.db.Trophy"/>
+  <mapping class="at.ac.uibk.sepm.pixplorer.db.User"/>
+ </session-factory>
 </hibernate-configuration>
