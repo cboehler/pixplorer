@@ -22,7 +22,6 @@ public class Place implements Serializable {
 	private Category category;
 	private GPSData gpsData;
 	
-	
 	public Place(){
 		
 	}

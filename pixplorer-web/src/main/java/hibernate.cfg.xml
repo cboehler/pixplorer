@@ -17,5 +17,6 @@
   <mapping class="at.ac.uibk.sepm.pixplorer.db.Place"/>
   <mapping class="at.ac.uibk.sepm.pixplorer.db.Trophy"/>
   <mapping class="at.ac.uibk.sepm.pixplorer.db.User"/>
+
  </session-factory>
 </hibernate-configuration>

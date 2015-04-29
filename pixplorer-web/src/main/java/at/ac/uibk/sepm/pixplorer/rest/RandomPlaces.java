@@ -9,9 +9,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import com.google.gson.Gson;
+import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
+import at.ac.uibk.sepm.pixplorer.db.Place;
 
-import at.ac.uibk.sepm.pixplorer.db.*;
+import com.google.gson.Gson;
 
 @Path("/Random")
 public class RandomPlaces {

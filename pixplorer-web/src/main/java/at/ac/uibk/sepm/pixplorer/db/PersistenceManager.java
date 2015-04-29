@@ -65,7 +65,7 @@ public class PersistenceManager {
 	}
 	
 	/**
-	 * get all from database
+	 * get filtered list from database
 	 * 
 	 * @param type - the class type representing the hibernate entity
 	 * @return database content or null
@@ -84,7 +84,7 @@ public class PersistenceManager {
 			session.beginTransaction();
 			if(!query.startsWith("where"))
 				query = "where " + query;
-			result = session.createQuery("from " + type.getSimpleName() + " " + query + " order by id asc").list();
+			result = session.createQuery("from " + type.getSimpleName() + " x " + query + " order by id asc").list();
 			session.getTransaction().commit();
 		} catch (RuntimeException e) {
 			session.getTransaction().rollback();
