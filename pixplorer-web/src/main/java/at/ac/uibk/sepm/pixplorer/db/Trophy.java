@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users", schema = "public")
+@Table(name = "trophies", schema = "public")
 public class Trophy implements Serializable {
 	private int id;
 	private String name;

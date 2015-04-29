@@ -12,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
-@Table(name = "GPSData", schema = "public")
+@Table(name = "gpsdata", schema = "public")
 public class GPSData implements Serializable {
 	private int id;
 	private double longitude;	
