@@ -18,6 +18,8 @@ public class DBContentGenerator {
 			PersistenceManager.save(to_save);
 		}
 		
+		System.out.println(PersistenceManager.get(Place.class,"where x.name = 'Sehenswürdigkeit1'"));
+		
 		
 		
 		
