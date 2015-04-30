@@ -6,11 +6,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>
-<<<<<<< HEAD
-      <param-value>at.ac.uibk.sepm.pixplorer</param-value>
-=======
       <param-value>at.ac.uibk.sepm.pixplorer.rest</param-value>
->>>>>>> refs/remotes/github-pixplorer/master
     </init-param>
     <init-param>
       <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
