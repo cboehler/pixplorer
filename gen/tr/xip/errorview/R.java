@@ -20,28 +20,28 @@ public final class R {
 		public static final int ev_showTitle = 0x7f0100e4;
 	}
 	public static final class color {
-		public static final int error_view_retry_button_background = 0x7f08004f;
-		public static final int error_view_retry_button_background_stroke = 0x7f080050;
-		public static final int error_view_text = 0x7f08004c;
-		public static final int error_view_text_dark = 0x7f08004d;
-		public static final int error_view_text_light = 0x7f08004e;
+		public static final int error_view_retry_button_background = 0x7f09004f;
+		public static final int error_view_retry_button_background_stroke = 0x7f090050;
+		public static final int error_view_text = 0x7f09004c;
+		public static final int error_view_text_dark = 0x7f09004d;
+		public static final int error_view_text_light = 0x7f09004e;
 	}
 	public static final class drawable {
 		public static final int error_view_cloud = 0x7f020055;
 		public static final int error_view_retry_button_background = 0x7f020056;
 	}
 	public static final class id {
-		public static final int error_image = 0x7f0c006d;
-		public static final int error_retry = 0x7f0c0070;
-		public static final int error_subtitle = 0x7f0c006f;
-		public static final int error_title = 0x7f0c006e;
+		public static final int error_image = 0x7f0d006d;
+		public static final int error_retry = 0x7f0d0070;
+		public static final int error_subtitle = 0x7f0d006f;
+		public static final int error_title = 0x7f0d006e;
 	}
 	public static final class layout {
 		public static final int error_view_layout = 0x7f030019;
 	}
 	public static final class string {
-		public static final int error_view_oops = 0x7f07003e;
-		public static final int error_view_retry = 0x7f07003f;
+		public static final int error_view_oops = 0x7f08003e;
+		public static final int error_view_retry = 0x7f08003f;
 	}
 	public static final class styleable {
 		public static final int[] ErrorView = { 0x7f0100df, 0x7f0100e0, 0x7f0100e1, 0x7f0100e2, 0x7f0100e3, 0x7f0100e4, 0x7f0100e5, 0x7f0100e6, 0x7f0100e7, 0x7f0100e8 };

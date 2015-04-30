@@ -34,5 +34,17 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
     
+    <style name="mySettings" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/cyan</item>
+        <item name="colorPrimaryDark">@color/cyan</item>
+        <item name="android:statusBarColor">@color/cyan</item>
+        <item name="android:navigationBarColor">@color/cyan</item>
+        <item name="android:textColorPrimary">@color/googlegreylight</item>
+        <item name="android:textColorSecondary">@color/googlegreylight</item>
+        <item name="android:colorAccent">@color/red</item>
+        <item name="android:windowContentOverlay">@null</item>
+        
+    </style>
+    
 
 </resources>

@@ -29,9 +29,35 @@
 	<string name="signin_failure">SignIn failed</string>
 	<string name="signin_other_error">SignIn error</string>
 	
+	<string name="pleasechooseCategoryTitle">Choose Your Gamemode</string>
+	<string name="pleasechooseCategoryMsg">Tourist: gets only easy Places and Sights.\n\nLocal: gets all available Places.\n\nYou can change this anytime in your Settings.</string>
+	<string name="chooseTourist">Tourist</string>
+	<string name="chooseLocal">Local</string>
+	
 <!-- Achievments and Leadboards -->	
 	<string name="achievement">Achievement</string>
 	<string name="achievements_not_available">Please sign in to view achievements.</string>
     <string name="leaderboards_not_available">Please sign in to view leaderboards.</string>
+    
+<!-- Setting Screen -->    
+    <string name="preferences_general">General</string>
+    <string name="title_gamemode">Game Mode</string>
+    <string name="summary_gamemode">Your selected gamemode is:</string>
+    <string name="preferences_about">About</string>
+    <string name="title_developer">Developer</string>
+    <string name="summary_developer">Appjunkies</string>
+    <string name="preferences_clean">Clean</string>
+    <string name="title_cache">Clear Cache</string>
+    <string name="summary_cache">Clear the image cache of the app</string>
+    <string name="version">Version</string>
+    
+    <string name="clearcacheTitle">Clear Cache</string>
+    <string name="clearcacheMsg">This operation cleares all the cached Images of this app. Loading may take longer next time you use the app.\nContinue?</string>
+    
+    
+    
+    
+    
+    
 
 </resources>

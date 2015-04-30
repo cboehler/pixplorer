@@ -1,17 +1,20 @@
 
 package appjunkies.pixplorer.activities;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +24,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import appjunkies.pixplorer.R;
 import appjunkies.pixplorer.fragments.Explore;
-import appjunkies.pixplorer.fragments.TestFragment;
+import appjunkies.pixplorer.fragments.Settings_Fragment;
 import appjunkies.pixplorer.other.FontAwesomeFont;
 import appjunkies.pixplorer.search.SearchBox;
 import appjunkies.pixplorer.search.SearchBox.MenuListener;
@@ -33,6 +37,12 @@ import appjunkies.pixplorer.search.SearchBox.SearchListener;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
+import com.google.example.games.basegameutils.BaseGameUtils;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -44,15 +54,8 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.squareup.picasso.Picasso.LoadedFrom;
-import com.google.android.gms.*;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.Games;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
-import com.google.example.games.basegameutils.BaseGameUtils;
+import com.squareup.picasso.Target;
 /**
  * @author appjunkies
  *
@@ -74,9 +77,6 @@ GoogleApiClient.OnConnectionFailedListener
 //        PEOPLE(8),
 //        TECHNOLOGY(16),
 //        OBJECTS(32);
-        
-        //QUESTION For Using only 1 Fragment it is neccessary to download the last places + favorites + specialplaces at the same time 
-//        otherwise we need 3 extra fragments.
 
         public final int id;
 
@@ -86,28 +86,24 @@ GoogleApiClient.OnConnectionFailedListener
     }
 	
 	
-	String username,useremail,userpic=null;
-	Drawable usericon; 
-	boolean loggedout=true;
-	boolean firststart=false;
-	private View positiveAction;
-	
 	private OnFilterChangedListener onFilterChangedListener;
 
     public void setOnFilterChangedListener(OnFilterChangedListener onFilterChangedListener) {
         this.onFilterChangedListener = onFilterChangedListener;
     }
 	
-	private static final int PROFILE_SETTING = 1;
+	private static final int PROFILE_SETTING = 111;
 	
 	private static final int HIDE_MENU = 1483;
 	private static final int SHOW_MENU = 3841;
-	int mState=0;
-	//save our header or result
-    public AccountHeader.Result headerResult = null;
-    public Drawer.Result result = null;
-    private IProfile user;
-    
+	
+	public static final String MODE = "GameMODE";
+	private static final int LOCAL = 2;
+	private static final int TOURIST = 1;
+	
+	// Profile pic image size in pixels
+	private static final int PROFILE_PIC_SIZE = 400;
+
     FragmentManager fragmentManager;
     
 	private SearchBox searchbox;
@@ -115,6 +111,18 @@ GoogleApiClient.OnConnectionFailedListener
 	Toolbar toolbar;
 	TextView toolbartitle;
 	
+	int mState=0;//to show or hide search
+	
+	int gameModeIndex=LOCAL;
+	SharedPreferences settingsprefs;
+	
+	//--------------------------------------------------------------------------
+	//--------------------------	Drawer Vars     ----------------------------
+	//--------------------------------------------------------------------------
+    public AccountHeader.Result headerResult = null;
+    public Drawer.Result result = null;
+    private IProfile user;
+    
 	//--------------------------------------------------------------------------
 	//--------------------------		Login Vars      ------------------------
 	//--------------------------------------------------------------------------
@@ -129,7 +137,13 @@ GoogleApiClient.OnConnectionFailedListener
 	boolean mInSignInFlow = false; // set to true when you're in the middle of the
 	                               // sign in flow, to know you should not attempt
 	                               // to connect in onStart()
-	
+	String username,useremail,userpic=null;
+	String personPhotoUrl;
+//	private ImageView imgProfilePic;
+	Drawable usericon; 
+	boolean loggedout=true;
+	boolean firststart=false;
+	private View positiveAction;
 	
 
 	@Override
@@ -147,7 +161,10 @@ GoogleApiClient.OnConnectionFailedListener
 		fragmentManager = getSupportFragmentManager();			
 		fragmentManager.beginTransaction().replace(R.id.content_frame, new Explore()).commit();
 			
-		final Fragment testfragment = new TestFragment();
+		final Settings_Fragment settings = new Settings_Fragment();
+		
+		settingsprefs = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+		gameModeIndex = settingsprefs.getInt(MODE, 2);
 		
 		// Create the Google Api Client with access to the Play Game services
 	    mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -158,46 +175,46 @@ GoogleApiClient.OnConnectionFailedListener
 	            // add other APIs and scopes here as needed
 	            .build();
 		loadPrefs();
-		if (loggedout == true) {
+		if (loggedout == true&&firststart) {
 			showLoginDialog();
     	}
-		
-		
-		
+		savePrefs("FIRST", false);
+//		imgProfilePic = new ImageView(getApplicationContext());
 		
 				
 //		// Create the AccountHeader*****************************************************************
 //		QUESTION get Account from Shared Prefs ?? 
 		loadUser();
-		if(loggedout&&userpic!=null){
+		if(loggedout&&userpic==null){
 			user = new ProfileDrawerItem().withName("Username").withNameShown(true).withEmail("user@gmail.com").withIcon(getResources().getDrawable(R.drawable.profilepic)).withIdentifier(2);
 		}else{
-			user = new ProfileDrawerItem().withNameShown(true).withIdentifier(2);
-			Picasso.with(HomeActivity.this).load(userpic).into(new Target() {
-				@Override
-				public void onPrepareLoad(Drawable drawable) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void onBitmapLoaded(Bitmap bitmap, LoadedFrom arg1) {
-					usericon = new BitmapDrawable(getBaseContext().getResources(),bitmap);
-					user.setIcon(usericon);
-					
-				}
-				
-				@Override
-				public void onBitmapFailed(Drawable drawable) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			user.setName(username);
-			user.setEmail(useremail);
-			user.setIcon(usericon);
-			
+			System.out.println("PICURL = "+userpic);
+//			user.setName(username);
+//			user.setEmail(useremail);			
+			new LoadProfileImage(usericon).execute(userpic);
 			user = new ProfileDrawerItem().withNameShown(true).withName(username).withEmail(useremail).withIcon(usericon).withIdentifier(2);
+			
+//			Picasso.with(HomeActivity.this).load(userpic).into(new Target() {
+//				@Override
+//				public void onPrepareLoad(Drawable drawable) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//				
+//				@Override
+//				public void onBitmapLoaded(Bitmap bitmap, LoadedFrom arg1) {
+//					usericon = new BitmapDrawable(getBaseContext().getResources(),bitmap);
+////					user.setIcon(usericon);
+//					user = new ProfileDrawerItem().withNameShown(true).withName(username).withEmail(useremail).withIcon(usericon).withIdentifier(2);
+//					
+//				}
+//				
+//				@Override
+//				public void onBitmapFailed(Drawable drawable) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//			});
 		}
 			// ----------------------------------
 	        headerResult = new AccountHeader()
@@ -229,19 +246,20 @@ GoogleApiClient.OnConnectionFailedListener
 	                        }
 	                        if (profile instanceof IDrawerItem && ((IDrawerItem) profile).getIdentifier() == PROFILE_SETTING) {
 	                        	Toast.makeText(HomeActivity.this, "Log Out HERE", Toast.LENGTH_SHORT).show();
-	                        	savePrefs("LOGGEDOUT", true);
-	                        	//TODO log out user from googlePlay and start App with loginactivity?
-	                        	mSignInClicked = false; 
+	                          	mSignInClicked = false; 
 	                        	mExplicitSignOut = true;
 	                             if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
 	                                 Games.signOut(mGoogleApiClient);
+	                                 savePrefs("LOGGEDOUT", true);
 	                                 mGoogleApiClient.disconnect();
 	                                 saveUser("NAME", "username");
 	                     			 saveUser("EMAIL", "user@gmail.com");
 	                     			 saveUser("PIC", null);
+	                     			 loadUser();
 	                     			 user.setEmail("user@gmail.com");
 	                     			 user.setName("Username");
 	                     			 user.setIcon(getResources().getDrawable(R.drawable.profilepic));
+	                     			 headerResult.updateProfileByIdentifier(user);
 	                             }
 	                        }
 	                        
@@ -286,14 +304,12 @@ GoogleApiClient.OnConnectionFailedListener
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         
                     	//INFO this onclick Listener changes the Content with the FilterInterface.
-                    	// If we Work without this Filter we need 3 or more Fragments.
-                    	
+                    	                    	
                         if (drawerItem != null) {
-                        	
                         	switch (drawerItem.getIdentifier()) {
 							case (1000):
-//								fragmentManager.beginTransaction().remove(testfragment);
-//								fragmentManager.popBackStack();
+								getFragmentManager().beginTransaction().remove(settings);
+								getFragmentManager().popBackStack();
 								mState = SHOW_MENU;
                             	invalidateOptionsMenu();
                             	if (onFilterChangedListener != null) {
@@ -302,8 +318,8 @@ GoogleApiClient.OnConnectionFailedListener
                             	toolbartitle.setText(getResources().getString(R.string.explore));
 								break;
 							case 1001:
-//								fragmentManager.beginTransaction().remove(testfragment);
-//								fragmentManager.popBackStack();
+								getFragmentManager().beginTransaction().remove(settings);
+								getFragmentManager().popBackStack();
 								mState = HIDE_MENU;
 								invalidateOptionsMenu();
                             	if (onFilterChangedListener != null) {
@@ -312,8 +328,8 @@ GoogleApiClient.OnConnectionFailedListener
                             	toolbartitle.setText(getResources().getString(R.string.favorite));
                             	break;
 							case 1002:
-//								fragmentManager.beginTransaction().remove(testfragment);
-//								fragmentManager.popBackStack();
+								getFragmentManager().beginTransaction().remove(settings);
+								getFragmentManager().popBackStack();
 								mState = HIDE_MENU;
 								invalidateOptionsMenu();
 								if (onFilterChangedListener != null) {
@@ -335,6 +351,14 @@ GoogleApiClient.OnConnectionFailedListener
 								}else{
 									showLoginDialog();
 								}
+								break;
+							case 6:
+								//FIXME if i click settings more times I have to click Explore the same amount because of backstack-adding
+								//and content is dublicated or triplled ...
+								mState = HIDE_MENU;
+								invalidateOptionsMenu();
+								getFragmentManager().beginTransaction().replace(R.id.content_frame, settings).addToBackStack("Settings").commit();
+								toolbartitle.setText(getResources().getString(R.string.setting));
 								break;
 							default:
 								break;
@@ -424,6 +448,39 @@ GoogleApiClient.OnConnectionFailedListener
         positiveAction.setEnabled(true);
 	     
 	}	
+    
+    public void showUserCategoryDialog() {
+    	MaterialDialog dialog = new MaterialDialog.Builder(HomeActivity.this)
+        .title(R.string.pleasechooseCategoryTitle)
+        .content(R.string.pleasechooseCategoryMsg)
+        .iconRes(R.drawable.game_green)
+        .positiveText(R.string.chooseLocal)
+        .negativeText(R.string.chooseTourist)
+        .cancelable(false)
+        .callback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+            	gameModeIndex= LOCAL;
+            	Editor edit = settingsprefs.edit();
+        		edit.putInt(MODE, LOCAL);
+        		edit.commit();
+            }
+            @Override
+            public void onNegative(MaterialDialog dialog) {
+            	gameModeIndex= TOURIST;
+            	Editor edit = settingsprefs.edit();
+        		edit.putInt(MODE, TOURIST);
+        		edit.commit();
+            }
+        }).build();
+		positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
+		
+        dialog.show();
+        positiveAction.setEnabled(true);
+	     
+	}	
+    
+    
 	
 	public void openSearch() {
 		toolbartitle.setText("");
@@ -567,10 +624,12 @@ GoogleApiClient.OnConnectionFailedListener
 	@Override
 	protected void onStart() {
 	    super.onStart();
+	    loadPrefs();
 	    if (!mInSignInFlow && !mExplicitSignOut&&!firststart) {
 	        // auto sign in
 	        mGoogleApiClient.connect();
 	    }
+	    	    
 	}
 
 	@Override
@@ -584,47 +643,51 @@ GoogleApiClient.OnConnectionFailedListener
 	    // The player is signed in. Hide the sign-in button and allow the
 	    // player to proceed.
 		savePrefs("LOGGEDOUT", false);
+		//FIXME show only on first start
+//		if(firststart){
+			showUserCategoryDialog();
+//		}
+		
 		if(Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null){
 			Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 			currentPerson.getCover();
 			username = currentPerson.getDisplayName();
+			personPhotoUrl = currentPerson.getImage().getUrl();
+			useremail = Games.getCurrentAccountName(mGoogleApiClient);
 			
 			user.setName(username);
-			useremail = Games.getCurrentAccountName(mGoogleApiClient);
+			
 			user.setEmail(useremail);
-			Picasso.with(HomeActivity.this).load(currentPerson.getImage().getUrl()).into(new Target() {
-				@Override
-				public void onPrepareLoad(Drawable drawable) {
-				}
-				
-				@Override
-				public void onBitmapLoaded(Bitmap bitmap, LoadedFrom arg1) {
-					Drawable icon = new BitmapDrawable(getBaseContext().getResources(),bitmap);
-					user.setIcon(icon);
-					
-				}
-				
-				@Override
-				public void onBitmapFailed(Drawable drawable) {
-					
-				}
-			});
+//			Picasso.with(HomeActivity.this).load(currentPerson.getImage().getUrl()).into(new Target() {
+//				@Override
+//				public void onPrepareLoad(Drawable drawable) {
+//				}
+//				
+//				@Override
+//				public void onBitmapLoaded(Bitmap bitmap, LoadedFrom arg1) {
+//					Drawable icon = new BitmapDrawable(getBaseContext().getResources(),bitmap);
+//					user.setIcon(icon);
+//					
+//				}
+//				
+//				@Override
+//				public void onBitmapFailed(Drawable drawable) {
+//					
+//				}
+//			});
+			// by default the profile url gives 50x50 px image only
+			// we can replace the value with whatever dimension we want by
+			// replacing sz=X
+			personPhotoUrl = personPhotoUrl.substring(0,
+					personPhotoUrl.length() - 2)
+					+ PROFILE_PIC_SIZE;
+			new LoadProfileImage(usericon).execute(personPhotoUrl);
+			user.setIcon(usericon);
 			saveUser("NAME", username);
 			saveUser("EMAIL", useremail);
-			saveUser("PIC", currentPerson.getImage().getUrl());
-		}	
+			saveUser("PIC", personPhotoUrl);
 			
-		if(Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null){
-            Person mCurrentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            String displayName = mCurrentPerson.getDisplayName();
-            Log.d("LOG_TAG_LOAD_VISIBLE_PEOPLE", "DisplayName: "+displayName);
-            Log.d("LOG_TAG_LOAD_VISIBLE_PEOPLE","Id: "+ mCurrentPerson.getId());
-            Log.d("LOG_TAG_LOAD_VISIBLE_PEOPLE","Image: "+mCurrentPerson.getImage().getUrl());
-            Log.d("LOG_TAG_LOAD_VISIBLE_PEOPLE","List of Urls: "+mCurrentPerson.getUrls());
-            Log.d("LOG_TAG_LOAD_VISIBLE_PEOPLE","Current Url: "+mCurrentPerson.getUrl());
-//            Log.d("LOG_TAG_LOAD_VISIBLE_PEOPLE","Cover: "+mCurrentPerson.g
-            Log.d("LOG_TAG_LOAD_VISIBLE_PEOPLE","Object type: "+mCurrentPerson.getObjectType());
-        }
+		}	
 		
 	}
 	
@@ -677,7 +740,41 @@ GoogleApiClient.OnConnectionFailedListener
 //	    // sign in to use this feature)
 //	}
 
+	/**
+	 * Background Async task to load user profile picture from url
+	 * */
+	private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
+		Drawable bmImage;
+
+		public LoadProfileImage(Drawable bmImage) {
+			this.bmImage = bmImage;
+			
+		}
+
+		protected Bitmap doInBackground(String... urls) {
+			String urldisplay = urls[0];
+			Bitmap mIcon11 = null;
+			try {
+				InputStream in = new java.net.URL(urldisplay).openStream();
+				mIcon11 = BitmapFactory.decodeStream(in);
+			} catch (Exception e) {
+				Log.e("Error", e.getMessage());
+				e.printStackTrace();
+			}
+			return mIcon11;
+		}
+
+		protected void onPostExecute(Bitmap result) {
+			bmImage = new BitmapDrawable(getBaseContext().getResources(),result);
+			user.setIcon(bmImage);
+			headerResult.updateProfileByIdentifier(user);
+		}
+	}
+
+	
 }
+
+
 
 
 
