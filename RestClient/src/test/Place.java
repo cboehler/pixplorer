@@ -1,144 +1,87 @@
 package test;
 
-
 import java.io.Serializable;
 
-
-
 public class Place implements Serializable {
-
-    private int ID;
-    private String image_src;
-    private boolean featured =false; //INFO featured means these are Places for QUEST Section
-    private int category;
-    private int points;
-    private String name;
-    private String wikipedia_entry;    
-    private String image;
-    
-    
-    
-    public Place(int ID,String image_src,boolean featured,int category,int points,String name,String wikipedia_entry, String image){
-    	this.ID = ID;
-    	this.image_src=image_src;
-    	this.featured = featured;
-    	this.category=category;
-    	this.points = points;
-    	this.name = name;
-    	this.wikipedia_entry = wikipedia_entry;
-    	this.image = image;
-    }
-
-
-
-	public int getID() {
-		return ID;
-	}
-
-
-
-	public void setID(int iD) {
-		ID = iD;
-	}
-
-
-
-	public String getImage_src() {
-		return image_src;
-	}
-
-
-
-	public void setImage_src(String image_src) {
-		this.image_src = image_src;
-	}
-
-
-
-	public boolean isFeatured() {
-		return featured;
-	}
-
-
-
-	public void setFeatured(boolean featured) {
-		this.featured = featured;
-	}
-
-	/**
-     * The categorys are:
-     * <br><br>
-     * #1 Sights<br>
-     * #2 Bars/Clubs<br>
-     * #3 Restaurant<br>
-     * #4 Sport<br>
-     * #5 Mountains<br>
-     * #6 Shopping <br>
-     * <br>
-     * Set Category of Place
-     * @param category number
-     */
-
-	public int getCategory() {
-		return category;
-	}
-
-
-
-	public void setCategory(int category) {
+	
+	private int id;
+	private String name;
+	private boolean featured;
+	private String wikiLink;
+	private long count;
+	private String picture;
+	private Category category;
+	
+	public Place(){}
+	
+	public Place(String name,String wikiLink,long count, String picture,Category category){
+		this.name = name;
+		this.wikiLink = wikiLink;
+		this.count = count;
+		this.picture = picture;
 		this.category = category;
+		
 	}
 
+	
+	private Category category_id;
 
-
-	public int getPoints() {
-		return points;
+	public Category getCategory() {
+		return category_id;
 	}
 
-
-
-	public void setPoints(int points) {
-		this.points = points;
+	public void setCategory(Category category_id) {
+		this.category_id = category_id;
 	}
 
+	// @OneToOne (cascade= CascadeType.ALL)
+	// @JoinColumn(name= "gps_id")
+	// public GPSData gps_id;
+	//
+	// public GPSData getGps_id() {
+	// return gps_id;
+	// }
+	// public void setGps_id(GPSData gps_id) {
+	// this.gps_id = gps_id;
+	// }
+	public int getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
 	}
 
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
 
-
-
-	public String getWikipedia_entry() {
-		return wikipedia_entry;
+	public String getWikiLink() {
+		return wikiLink;
 	}
 
-
-
-	public void setWikipedia_entry(String wikipedia_entry) {
-		this.wikipedia_entry = wikipedia_entry;
+	public void setWikiLink(String wikiLink) {
+		this.wikiLink = wikiLink;
 	}
 
-
-
-	public String getImage() {
-		return image;
+	public long getCount() {
+		return count;
 	}
 
-
-
-	public void setImage(String image) {
-		this.image = image;
+	public void setCount(long count) {
+		this.count = count;
 	}
 
+	public String getPicture() {
+		return picture;
+	}
 
-    
-        
-    
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
 }
