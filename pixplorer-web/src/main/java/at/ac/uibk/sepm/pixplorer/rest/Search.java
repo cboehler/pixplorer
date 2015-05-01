@@ -16,21 +16,14 @@ import com.google.gson.Gson;
 
 
 @Path("/Suche")
-public class Search {
-	
-	Gson gson = new Gson();
+public class Search {	
 	
 	//Method handling a Client's Search Request	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String search(String json){
 		
-		for(int i = 0;i<10;i++){
-			Category c = new Category();
-			c.setName("category"+i);
-			Place to_save = new Place("Sehenswürdigkeit"+i,"http://de.wikipedia.org/wiki/Goldenes_Dachl",0,null,c);
-			PersistenceManager.save(to_save);
-		}
+		Gson gson = new Gson();	
 		
 		String search_str = gson.fromJson(json, String.class);
 		
@@ -40,15 +33,15 @@ public class Search {
 		
 		for(Category c : categories){
 			if(c.getName().equals(search_str)){
-				filter = "where x.category = '" + search_str + "'";
+				filter = "where x.category = '" + c.getId() + "'";
 				break;	
 			}
 		}
 		
 		if(filter == null)
-			filter = "where x.name = '" + search_str + "'";
+			filter = "where x.name = '" + search_str + "'";			
 		
-		System.out.println(filter);
+		//System.out.println(filter);
 		
 		List<Place> place = new ArrayList<Place> ();
 				

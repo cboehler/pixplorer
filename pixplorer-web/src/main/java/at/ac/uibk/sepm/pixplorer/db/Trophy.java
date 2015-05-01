@@ -5,7 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -16,9 +18,13 @@ public class Trophy implements Serializable {
 	private String description;
 	private String code;
 	
-	@Id
-	@GeneratedValue
-	@Column(name = "id", unique = true, nullable = false)
+    @Id
+    @SequenceGenerator(name = "trophies_id_seq",
+            sequenceName = "trophies_id_seq",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "trophies_id_seq")
+    @Column(name = "id", unique = true, nullable = false)
 	public int getId() {
 		return id;
 	}

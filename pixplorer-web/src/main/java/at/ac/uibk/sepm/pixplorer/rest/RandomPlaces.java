@@ -18,27 +18,35 @@ import com.google.gson.Gson;
 public class RandomPlaces {
 
 	Gson gson = new Gson();
+	Random random = new Random();
 	
 	//Method handling a Client's Search Request	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getRandomPlaces(String json){
+	public String getRandomPlaces(String json){		
+				
+		/*String user = gson.fromJson(json, String.class);
 		
-		for(int i = 0;i<10;i++){
-			Place to_save = new Place("Sehenswürdigkeit"+i,"http://de.wikipedia.org/wiki/Goldenes_Dachl",0,null,null);
-			PersistenceManager.save(to_save);
-		}
+		String filter = "where x.googleid = '" + user + "'";
 		
-		Random random = new Random();
-		Integer[] ids = gson.fromJson(json, Integer[].class);
-		List<Integer> id_list = new ArrayList<Integer>();
-		for(Integer id : ids){
-			id_list.add(id);		
-		}
+		List<User> users = PersistenceManager.get(User.class, filter);*/
 		
+		//IMPORTANT!!!!!!!!!!!!!!!!!!!!!
+		//To implement after Database is updated : Get Users found and favored places (Database queries)
 		
-		List<Place> places =  PersistenceManager.getAll(Place.class);
+		//IMPORTANT!!!!!!!!!!!!!!!!!!!!!
+		// Delete this line after implementation 		
+		
+		return gson.toJson(this.get10RandomPlaces(new ArrayList<Integer>()));
+		
+	}
+	
+	public Place[] get10RandomPlaces(List<Integer> id_list){
+	
 		List<Integer> random_ids = new ArrayList<Integer>();
+	
+		List<Place> places =  PersistenceManager.getAll(Place.class);
+		
 		Place[] ret_places = new Place[10];
 		Integer place_id;
 		
@@ -54,10 +62,7 @@ public class RandomPlaces {
 			random_ids.add(place_id);					
 		}
 		
-		return gson.toJson(ret_places);
-		
+		return ret_places;
 	}
-	
-	
 
 }

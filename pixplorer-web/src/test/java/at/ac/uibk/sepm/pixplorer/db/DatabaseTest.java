@@ -31,7 +31,6 @@ public class DatabaseTest {
 		Assert.assertTrue(categories.isEmpty());
 	}
 
-	@Ignore
 	@Test	
 	public void testPlace() {
 		List<Place> places = PersistenceManager.getAll(Place.class);
@@ -44,14 +43,23 @@ public class DatabaseTest {
 		
 		PersistenceManager.save(cat);
 		
+		GPSData gps = new GPSData();
+		gps.setLatitude(123);
+		gps.setLatitude(456);
+		
+		PersistenceManager.save(gps);
+		
 		// create new place
 		Place place = new Place();
 		place.setCount(1);
 		place.setCategory(cat);
+		place.setGpsData(gps);
 		place.setName("Goldenes Dachl");
 		place.setPicture("pic of goldenes dachl");
 		place.setWikiLink("http://blabla");
+		place.setFeatured(false);
 		PersistenceManager.save(place);
+		
 		
 		// check if everything was stored
 		places = PersistenceManager.getAll(Place.class);
@@ -61,7 +69,8 @@ public class DatabaseTest {
 		Assert.assertEquals("Goldenes Dachl", places.get(0).getName());
 		Assert.assertEquals("pic of goldenes dachl", places.get(0).getPicture());
 		Assert.assertEquals("http://blabla", places.get(0).getWikiLink());
-		PersistenceManager.delete(cat);
+		Assert.assertEquals(false, places.get(0).isFeatured());
+		PersistenceManager.delete(place);
 		
 		// check if it was removed
 		places = PersistenceManager.getAll(Place.class);

@@ -6,10 +6,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "places", schema = "public")
@@ -21,6 +26,8 @@ public class Place implements Serializable {
 	private String picture;
 	private Category category;
 	private GPSData gpsData;
+	private long modificationDate;
+	private boolean featured;
 	
 	public Place(){
 		
@@ -34,9 +41,13 @@ public class Place implements Serializable {
 		this.category = category;
 	}
 
-	@Id
-	@GeneratedValue
-	@Column(name = "id", unique = true, nullable = false)
+    @Id
+    @SequenceGenerator(name = "places_id_seq",
+            sequenceName = "places_id_seq",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "places_id_seq")
+    @Column(name = "id", unique = true, nullable = false)
 	public int getId() {
 		return id;
 	}
@@ -45,7 +56,15 @@ public class Place implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false)
+	public boolean isFeatured() {
+		return featured;
+	}
+	
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
+	}
+	
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -63,7 +82,7 @@ public class Place implements Serializable {
 		this.wikiLink = wikiLink;
 	}
 
-	@Column(name = "count")
+	@Column(name = "users_found")
 	public long getCount() {
 		return count;
 	}
@@ -81,7 +100,8 @@ public class Place implements Serializable {
 		this.picture = picture;
 	}
 
-	@OneToOne(cascade = CascadeType.REFRESH)
+	@OneToOne
+	@OnDelete(action=OnDeleteAction.NO_ACTION)
 	@JoinColumn(name = "category")
 	public Category getCategory() {
 		return category;
@@ -101,4 +121,12 @@ public class Place implements Serializable {
 		this.gpsData = gpsData;
 	}
 	
+	@Column(name = "modification_date")
+	public long getModificationDate() {
+		return modificationDate;
+	}
+	
+	public void setModificationDate(long modificationDate) {
+		this.modificationDate = modificationDate;
+	}
 }

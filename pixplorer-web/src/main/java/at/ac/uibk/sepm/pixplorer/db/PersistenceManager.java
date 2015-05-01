@@ -94,6 +94,39 @@ public class PersistenceManager {
 
 		return result;
 	}
+	
+	/**
+	 * get element from database
+	 * 
+	 * @param type - the class type representing the hibernate entity
+	 * @return database content or null
+	 */
+	public static <T> T getOne(Class<T> type, String filter) {
+		if (sessionFactory == null) {
+			logger.log(Level.SEVERE, "No session factory set!");
+			return null;
+		}
+
+		Session session = sessionFactory.getCurrentSession();
+
+		List<T> result = null;
+		String query = filter;
+		try {
+			session.beginTransaction();
+			if(!query.startsWith("where"))
+				query = "where " + query;
+			result = session.createQuery("from " + type.getSimpleName() + " x " + query + " order by id asc").list();
+			session.getTransaction().commit();
+		} catch (RuntimeException e) {
+			session.getTransaction().rollback();
+			logger.log(Level.SEVERE,
+					"Could not execute query from " + type.getSimpleName(), e);
+		}
+		if(result.size() == 1)
+			return result.get(0);
+		else
+			return null;
+	}
 
 	/**
 	 * Stores the passed objects to the database.

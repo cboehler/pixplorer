@@ -5,11 +5,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "gpsdata", schema = "public")
@@ -18,10 +17,13 @@ public class GPSData implements Serializable {
 	private double longitude;	
 	private double latitude;
 	
-	@Id
-	@GeneratedValue(generator = "newGenerator")
-	@GenericGenerator(name = "newGenerator", strategy = "foreign", parameters = { @Parameter(name = "property", value = "place") })
-	@Column(name = "id")
+    @Id
+    @SequenceGenerator(name = "gpsdata_id_seq",
+            sequenceName = "gpsdata_id_seq",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "gpsdata_id_seq")
+    @Column(name = "id", unique = true)
 	public int getId() {
 		return id;
 	}

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 	
 @Entity
@@ -15,9 +16,13 @@ public class Category implements Serializable {
 	private int id;	
 	private String name;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+    @Id
+    @SequenceGenerator(name = "categories_id_seq",
+            sequenceName = "categories_id_seq",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "categories_id_seq")
+    @Column(name = "id", unique = true, nullable = false)
 	public int getId() {
 		return id;
 	}
