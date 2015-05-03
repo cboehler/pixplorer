@@ -20,6 +20,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "users", schema = "public")
 public class User implements Serializable {
+	/** constant for user type tourist */
+	public static final int TYPE_TOURIST = 1;
+	
+	/** constant for user type local */
+	public static final int TYPE_LOCAL = 2;
+	
 	private int id;
 	private String googleId;
 	private long score;
@@ -28,7 +34,7 @@ public class User implements Serializable {
 	private Set<Place> places = new HashSet<Place>();
 	private Set<Place> favourites = new HashSet<Place>();
 	private Set<Trophy> trophies = new HashSet<Trophy>();
-
+	
     @Id
     @SequenceGenerator(name = "users_id_seq",
             sequenceName = "users_id_seq",
@@ -84,7 +90,7 @@ public class User implements Serializable {
         this.trophies = trophies;
     }
     
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "history", joinColumns = { 
 			@JoinColumn(name = "user_id", nullable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "place_id", 
@@ -99,7 +105,7 @@ public class User implements Serializable {
         this.places = places;
     }
     
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "favourites", joinColumns = { 
 			@JoinColumn(name = "user_id", nullable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "place_id", 
