@@ -58,6 +58,28 @@ public class DatabaseTest {
 		Assert.assertTrue(dataList.isEmpty());		
 	}	
 	
+	@Test
+	public void testSQLStatement() {
+		List<GPSData> dataList = PersistenceManager.getAll(GPSData.class);
+		Assert.assertNotNull(dataList);
+		Assert.assertTrue(dataList.isEmpty());
+		
+		for (int i = 0; i < 100; i++) {
+			GPSData data = new GPSData();
+			data.setLatitude(Math.PI);
+			data.setLongitude(Math.E);
+			PersistenceManager.save(data);
+		}
+		
+		List<?> result = PersistenceManager.executeSQl("SELECT * FROM gpsdata");
+		Assert.assertNotNull(result);
+		Assert.assertEquals(100, result.size());
+		
+		for (Object obj : dataList) {
+			PersistenceManager.delete(obj);
+		}
+	}
+	
 	@Test	
 	public void testCategories() {
 		List<Category> categories = PersistenceManager.getAll(Category.class);

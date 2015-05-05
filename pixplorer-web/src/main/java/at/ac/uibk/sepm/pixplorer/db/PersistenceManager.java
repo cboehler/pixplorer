@@ -50,18 +50,19 @@ public class PersistenceManager {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		List<T> result = null;
 		try {
 			session.beginTransaction();
-			result = session.createQuery("from " + type.getSimpleName() + " order by id asc").list();
+			List<T> result  = session.createQuery("from " + type.getSimpleName() + " order by id asc").list();
 			session.getTransaction().commit();
+			
+			return result;
 		} catch (RuntimeException e) {
 			session.getTransaction().rollback();
 			logger.log(Level.SEVERE,
 					"Could not execute query from " + type.getSimpleName(), e);
 		}
 
-		return result;
+		return null;
 	}
 	
 	/**
@@ -78,30 +79,40 @@ public class PersistenceManager {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		List<T> result = null;
-		String query = filter;
 		try {
 			session.beginTransaction();
-			if(!query.startsWith("where"))
+			
+			String query = filter;
+			if (!query.startsWith("where")) {
 				query = "where " + query;
-			result = session.createQuery("from " + type.getSimpleName() + " x " + query + " order by id asc").list();
+			}
+			
+			List<T> result = session.createQuery("from " + type.getSimpleName() + " x " + query + " order by id asc").list();
+			
 			session.getTransaction().commit();
+			
+			return result;
 		} catch (RuntimeException e) {
 			session.getTransaction().rollback();
 			logger.log(Level.SEVERE,
 					"Could not execute query from " + type.getSimpleName(), e);
 		}
 
-		return result;
+		return null;
 	}
-	
+
 	/**
-	 * get element from database
+	 * Method to execute an arbitrary SQL statement.
 	 * 
-	 * @param type - the class type representing the hibernate entity
-	 * @return database content or null
+	 * @param statement - sql statement to execute
+	 * @return query result as list or <code>null</code> if no statement was specified or the connection
+	 * to the database is not opened
 	 */
-	public static <T> T getOne(Class<T> type, String filter) {
+	public static List<?> executeSQl(String statement) {
+		if (statement == null || statement.isEmpty()) {
+			return null;
+		}
+		
 		if (sessionFactory == null) {
 			logger.log(Level.SEVERE, "No session factory set!");
 			return null;
@@ -109,25 +120,20 @@ public class PersistenceManager {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		List<T> result = null;
-		String query = filter;
 		try {
 			session.beginTransaction();
-			if(!query.startsWith("where"))
-				query = "where " + query;
-			result = session.createQuery("from " + type.getSimpleName() + " x " + query + " order by id asc").list();
+			List<?> result = session.createSQLQuery(statement).list();
 			session.getTransaction().commit();
+			
+			return result;
 		} catch (RuntimeException e) {
 			session.getTransaction().rollback();
-			logger.log(Level.SEVERE,
-					"Could not execute query from " + type.getSimpleName(), e);
+			logger.log(Level.SEVERE, "Could not execute query " + statement, e);
 		}
-		if(result.size() == 1)
-			return result.get(0);
-		else
-			return null;
-	}
 
+		return null;		
+	}
+	
 	/**
 	 * Stores the passed objects to the database.
 	 *
