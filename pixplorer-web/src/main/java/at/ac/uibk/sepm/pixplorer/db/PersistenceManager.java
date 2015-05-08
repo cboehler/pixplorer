@@ -10,8 +10,10 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 /**
- * Perisstance manager that provides access to the PostgreSQL database using Hibernate. This
- * class offers methods to read, update or delete entries from the database.
+ * Persistance manager that provides access to the PostgreSQL database using Hibernate. This
+ * class offers methods to read, update or delete entries from the database. It provides a method
+ * to execute arbitrary SQL statements as well. These statements are used to find out whether a user
+ * has got a new trophy.
  * 
  * @author cbo
  */
