@@ -130,6 +130,7 @@ public class DatabaseTest {
 		place.setPicture("pic of goldenes dachl");
 		place.setWikiLink("http://blabla");
 		place.setFeatured(false);
+		place.setScore(1234);
 		PersistenceManager.save(place);
 		
 		
@@ -138,6 +139,7 @@ public class DatabaseTest {
 		Assert.assertNotNull(places);
 		Assert.assertTrue(!places.isEmpty());
 		Assert.assertEquals(1, places.get(0).getCount());
+		Assert.assertEquals(1234, places.get(0).getScore());
 		Assert.assertEquals("Goldenes Dachl", places.get(0).getName());
 		Assert.assertEquals("pic of goldenes dachl", places.get(0).getPicture());
 		Assert.assertEquals("http://blabla", places.get(0).getWikiLink());
@@ -225,6 +227,7 @@ public class DatabaseTest {
 		place.setPicture("pic of goldenes dachl");
 		place.setWikiLink("http://blabla");
 		place.setFeatured(false);
+		place.setScore(1234);
 		PersistenceManager.save(place);
 		
 		user.getFavourites().add(place);
@@ -269,6 +272,7 @@ public class DatabaseTest {
 		place.setPicture("pic of goldenes dachl");
 		place.setWikiLink("http://blabla");
 		place.setFeatured(false);
+		place.setScore(1234);
 		PersistenceManager.save(place);
 		
 		user.getFoundPlaces().add(place);

@@ -28,6 +28,7 @@ public class Place implements Serializable {
 	private int id;
 	private String name;
 	private String wikiLink;
+	private int score;
 	private long count;
 	private String picture;
 	private Category category;
@@ -175,5 +176,14 @@ public class Place implements Serializable {
 	
 	public void setModificationDate(long modificationDate) {
 		this.modificationDate = modificationDate;
+	}
+	
+	@Column(name = "score")
+	public int getScore() {
+		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
 	}
 }

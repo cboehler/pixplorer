@@ -41,6 +41,7 @@ public class User implements Serializable {
 	private String googleId;
 	private long score;
 	private int type;
+	private boolean admin;
 	
 	private Set<Place> places = new HashSet<Place>();
 	private Set<Place> favourites = new HashSet<Place>();
@@ -98,16 +99,23 @@ public class User implements Serializable {
 		this.type = type;
 	}
 	
+	@Column(name = "admin")
+	public boolean isAdmin() {
+		return admin;
+	}
+	
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+	
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = "usertrophymapping", joinColumns = { @JoinColumn(name = "user_id") }, 
               inverseJoinColumns = { @JoinColumn(name = "trophy_id") })
-    public Set<Trophy> getTrophies()
-    {
+    public Set<Trophy> getTrophies() {
         return trophies;
     }
 
-    public void setTrophies(Set<Trophy> trophies)
-    {
+    public void setTrophies(Set<Trophy> trophies) {
         this.trophies = trophies;
     }
     
@@ -116,13 +124,11 @@ public class User implements Serializable {
 			@JoinColumn(name = "user_id", nullable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "place_id", 
 					nullable = false) })
-    public Set<Place> getFoundPlaces()
-    {
+    public Set<Place> getFoundPlaces() {
         return places;
     }
 
-    public void setFoundPlaces(Set<Place> places)
-    {
+    public void setFoundPlaces(Set<Place> places) {
         this.places = places;
     }
     
@@ -131,13 +137,11 @@ public class User implements Serializable {
 			@JoinColumn(name = "user_id", nullable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "place_id", 
 					nullable = false) })
-    public Set<Place> getFavourites()
-    {
+    public Set<Place> getFavourites() {
         return favourites;
     }
 
-    public void setFavourites(Set<Place> favourites)
-    {
+    public void setFavourites(Set<Place> favourites) {
         this.favourites = favourites;
     }    
 }

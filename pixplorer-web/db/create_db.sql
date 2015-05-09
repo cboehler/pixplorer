@@ -1,4 +1,4 @@
--- create pixplorer user if it doesnÄt exist
+-- create pixplorer user if it doesn't exist
 do 
 $body$
 declare 
@@ -84,6 +84,7 @@ CREATE TABLE places
 	name text not null,
 	wikilink text not null,
 	picture text not null,
+	score integer not null,
 	modification_date bigint not null,
 	featured boolean not null,
 	users_found integer not null,
@@ -102,7 +103,8 @@ CREATE TABLE users
 	id integer DEFAULT nextval(('	'::text)::regclass) PRIMARY KEY,
 	google_id text NOT NULL,
 	user_type integer not null,
-	score integer not null
+	score integer not null,
+	admin boolean not null
 );
 
 ALTER TABLE users OWNER TO pixplorer;
