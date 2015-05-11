@@ -1,8 +1,5 @@
 package at.ac.uibk.sepm.pixplorer.rest;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -10,66 +7,58 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import at.ac.uibk.sepm.pixplorer.db.Category;
 import at.ac.uibk.sepm.pixplorer.db.DBContentGenerator;
 import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
 import at.ac.uibk.sepm.pixplorer.db.Place;
+import at.ac.uibk.sepm.pixplorer.db.User;
 
 import com.google.gson.Gson;
 
 
-@Path("/Init")
+@Path("/init")
 public class AppInit {
 	
-	public class json_init{
-		String googleid;
-		Integer option;
-		
-		public json_init(String googleid, Integer option){
-			this.googleid = googleid;
-			this.option = option;
-		}
-		
-		public String get_googleid(){
-			return this.googleid;
-		}
-		
-		public Integer get_option(){
-			return this.option;
-		}
-		
-		public void set_googleid(String googleid){
-			this.googleid = googleid;
-		}
-		
-		public void set_option(Integer option){
-			this.option = option;
-		}
-	}
+	Gson gson = new Gson();
 	
 	//Method is called when Client opened App and decided to play as Tourist or Local	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String init(String json){
 		
-		//Just for testing - fills database - if empty -  with some arbitrary values
 		DBContentGenerator.main(null);
 		
-		Gson gson = new Gson();
+		/*Order of objects: 1. Integer option ( Determines whether User is playing as tourist or local )	
+		 * 					2. String username ( Email of User's Google Account )
+		 */
 		
-		json_init obj = gson.fromJson(json, json_init.class);
+		Object[] objects = JsonUtils.getObjectsFromJson(json);
+		Integer option = Integer.class.cast(objects[0]);
+		String username = String.class.cast(objects[1]);
 		
-		if(obj.option == 0){
-			
-			//IMPORTANT!!!!!!!! Implement after Database update - save option in Table User & if name is not in database create a new one
+		String filter = "where x.googleId = '" + username + "'";
+		
+		List<User> users = PersistenceManager.get(User.class,filter);
+		
+		User user = new User();
+		
+		if(users.size() == 0){
+			user = new User();
+			user.setGoogleId(username);
+			user.setType(option);
+			PersistenceManager.save(user);
+		}
+		else{
+			user = users.get(0);
 		}
 		
-		else if(obj.option == 1){
-			//IMPORTANT!!!!!!!! Implement after Database update - save option in Table User & if name is not in database create a new one
+		if(user.getType() != option){
+			user.setType(option);
+			PersistenceManager.save(user);
 		}
 		
-		 RandomPlaces rp = new RandomPlaces();
-		 return rp.getRandomPlaces(gson.toJson(obj.googleid));
+		RandomPlaceGenerator generator = new RandomPlaceGenerator();
+		Place[] places = generator.getPlaces(user , 10);
+		return JsonUtils.createJsonString(places);
 		 
 		
 	}
