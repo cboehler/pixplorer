@@ -1,6 +1,7 @@
-package test;
+package database;
 
 import java.io.Serializable;
+
 
 
 public class GPSData implements Serializable {

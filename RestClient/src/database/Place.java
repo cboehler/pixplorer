@@ -1,50 +1,32 @@
-package test;
+package database;
 
 import java.io.Serializable;
 
+
 public class Place implements Serializable {
-	
 	private int id;
 	private String name;
-	private boolean featured;
 	private String wikiLink;
 	private long count;
 	private String picture;
 	private Category category;
+	private GPSData gpsData;
+	private long modificationDate;
+	private boolean featured;
 	
-	public Place(){}
+	public Place(){
+		
+	}
 	
-	public Place(String name,String wikiLink,long count, String picture,Category category){
+	public Place(String name, String wikiLink, long count, String picture, Category category){
 		this.name = name;
 		this.wikiLink = wikiLink;
 		this.count = count;
 		this.picture = picture;
 		this.category = category;
-		
 	}
 
-	
-	private Category category_id;
-
-	public Category getCategory() {
-		return category_id;
-	}
-
-	public void setCategory(Category category_id) {
-		this.category_id = category_id;
-	}
-
-	// @OneToOne (cascade= CascadeType.ALL)
-	// @JoinColumn(name= "gps_id")
-	// public GPSData gps_id;
-	//
-	// public GPSData getGps_id() {
-	// return gps_id;
-	// }
-	// public void setGps_id(GPSData gps_id) {
-	// this.gps_id = gps_id;
-	// }
-	public int getId() {
+  	public int getId() {
 		return id;
 	}
 
@@ -52,6 +34,15 @@ public class Place implements Serializable {
 		this.id = id;
 	}
 
+	public boolean isFeatured() {
+		return featured;
+	}
+	
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
+	}
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -60,6 +51,7 @@ public class Place implements Serializable {
 		this.name = name;
 	}
 
+	
 	public String getWikiLink() {
 		return wikiLink;
 	}
@@ -68,6 +60,7 @@ public class Place implements Serializable {
 		this.wikiLink = wikiLink;
 	}
 
+	
 	public long getCount() {
 		return count;
 	}
@@ -76,6 +69,7 @@ public class Place implements Serializable {
 		this.count = count;
 	}
 
+	
 	public String getPicture() {
 		return picture;
 	}
@@ -84,4 +78,30 @@ public class Place implements Serializable {
 		this.picture = picture;
 	}
 
+	
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	
+	public GPSData getGpsData() {
+		return gpsData;
+	}
+	
+	public void setGpsData(GPSData gpsData) {
+		this.gpsData = gpsData;
+	}
+	
+	
+	public long getModificationDate() {
+		return modificationDate;
+	}
+	
+	public void setModificationDate(long modificationDate) {
+		this.modificationDate = modificationDate;
+	}
 }
