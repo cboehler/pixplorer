@@ -3,18 +3,12 @@ package rest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.google.gson.Gson;
 
 import database.Place;
 
@@ -22,7 +16,7 @@ import database.Place;
 
 public class MyHttpClient {	
 
-	static String requestPath = "http://pixplorer-sepm.rhcloud.com/pixplorer/rest/";	
+	static String requestPath = "http://localhost:8080/pixplorer-web/rest/";	
 	
 	public static Place[] createPostRequest(HttpPost request) throws ClientProtocolException, IOException{
 		CloseableHttpClient client = new DefaultHttpClient();
