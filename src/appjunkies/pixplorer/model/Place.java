@@ -7,20 +7,24 @@ import android.support.v7.graphics.Palette;
 import appjunkies.pixplorer.other.Utils;
 
 /**
- * @author emme
+ * @author appjunkies
  *
  */
 public class Place implements Serializable {
 
-    private int ID;
+    private int id;
     private String image_src;
     private boolean featured =false; //INFO featured means these are Places for QUEST Section
     private boolean favorite =false; // only for App not for server
     private boolean found=false;//for profilactivity
-    private int category;
+    private Category category;
+    private Category category_id;
+    private long count;
     private int points;
     private String name;
     private String wikipedia_entry;
+    private GPSData gpsData;
+	private long modificationDate;
    
     
     private Bitmap image_bmp;
@@ -31,6 +35,18 @@ public class Place implements Serializable {
     private int height;
     transient private Palette.Swatch swatch;
 
+    
+    public Place(){}
+	
+	public Place(String name,String wikiLink,long count, String picture,Category category){
+		this.name = name;
+		this.wikipedia_entry = wikiLink;
+		this.count = count;
+		this.image_src = picture;
+		this.category = category;
+		
+	}
+    
     
     /**
      * @return name of the Place
@@ -52,16 +68,16 @@ public class Place implements Serializable {
 	 * 
 	 * @return ID
 	 */
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 
 	/**
 	 * Set the ID of the Place. Here its the <strong>PrimeID</strong> of the Item on the Server!
 	 * @param iD
 	 */
-	public void setID(int iD) {
-		this.ID = iD;
+	public void setId(int iD) {
+		this.id = iD;
 	}
 
 	/**
@@ -215,7 +231,7 @@ public class Place implements Serializable {
      * true if the Place is Special. In this case the Points should be increased dynamically
      * @return if its featured
      */
-    public boolean getFeatured() {
+    public boolean isFeatured() {
         return featured;
     }
 
@@ -240,24 +256,37 @@ public class Place implements Serializable {
      * <br>
      * @return a number that defines the category
      */
-    public int getCategory() {
-        return category;
-    }
+    public Category getCategory() {
+		return category_id;
+	}
 
-    /**
-     * The categorys are:
-     * <br><br>
-     * #1 Sights<br>
-     * #2 Bars/Clubs<br>
-     * #3 Restaurant<br>
-     * #4 Sport<br>
-     * #5 Mountains<br>
-     * #6 Shopping <br>
-     * <br>
-     * Set Category of Place
-     * @param category number
-     */
-    public void setCategory(int category) {
-        this.category = category;
-    }
+	public void setCategory(Category category_id) {
+		this.category_id = category_id;
+	}
+    
+	public long getCount() {
+		return count;
+	}
+
+	public void setCount(long count) {
+		this.count = count;
+	}
+	
+	public GPSData getGpsData() {
+		return gpsData;
+	}
+	
+	public void setGpsData(GPSData gpsData) {
+		this.gpsData = gpsData;
+	}
+	
+	
+	public long getModificationDate() {
+		return modificationDate;
+	}
+	
+	public void setModificationDate(long modificationDate) {
+		this.modificationDate = modificationDate;
+	}
+	
 }

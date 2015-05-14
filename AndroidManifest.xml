@@ -23,6 +23,14 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" >
         </meta-data>
+        <meta-data 
+            android:name="com.google.android.maps.v2.API_KEY" 
+            android:value="AIzaSyBhEuzw3hkUo3f6jRLlpK_GCnHCuF_oPOc">
+<!-- android:value="AIzaSyBhEuzw3hkUo3f6jRLlpK_GCnHCuF_oPOc"> for Debug-->
+<!-- android:value="AIzaSyABo-aLGq_UthVGymdjfDpZ-UZ8y09F6Ek"> for Export  -->
+            
+        </meta-data>
+        <uses-library android:name="com.google.android.maps" />
         
         <meta-data android:name="com.google.android.gms.games.APP_ID"
         android:value="@string/app_id" />
@@ -39,6 +47,14 @@
         
         <activity android:name=".activities.DetailActivity"
                   android:theme="@style/AppTheme.DetailActivity">
+        </activity>
+        
+         <activity android:name=".profileview.BaseActivity"
+             android:theme="@style/profileStyle">
+        </activity>
+        
+        <activity android:name=".profileview.UserProfileActivity"
+            android:theme="@style/profileStyle">
         </activity>
         
         

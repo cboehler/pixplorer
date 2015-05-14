@@ -50,14 +50,19 @@
     <string name="title_cache">Clear Cache</string>
     <string name="summary_cache">Clear the image cache of the app</string>
     <string name="version">Version</string>
-    
-    <string name="clearcacheTitle">Clear Cache</string>
+	<string name="clearcacheTitle">Clear Cache</string>
     <string name="clearcacheMsg">This operation cleares all the cached Images of this app. Loading may take longer next time you use the app.\nContinue?</string>
+  
+<!-- GPS dialog -->   
+    <string name="enable_GPS_msg">"It seems that your GPS is turned off. Turn it on now?"</string>
+    <string name="enable_GPS">"GPS not enabled"</string>
+    <string name="enable_GPS_net_msg">"It seems that your Internet and GPS are off. Turn it on now?"</string>
+    <string name="enable_GPS_net">"GPS and Network not enabled"</string>
     
-    
-    
-    
-    
+<!-- Profile -->   
+    <string name="avaiable_place">Places</string>
+    <string name="searching">To Search</string>
+    <string name="found">Found</string>   
     
 
 </resources>

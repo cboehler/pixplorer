@@ -66,7 +66,7 @@ public class DataPlaces {
 
 		ContentValues values = new ContentValues();
 		values.put(Database.NAME, place.getName());
-		values.put(Database.LAST_ID, place.getID());
+		values.put(Database.LAST_ID, place.getId());
 		// Inserting Row
 		database.insert(Database.TABLE_LASTLIST, null, values);
 
@@ -84,7 +84,7 @@ public class DataPlaces {
 
 		ContentValues values = new ContentValues();
 		values.put(Database.NAME, place.getName());
-		values.put(Database.LAST_ID, place.getID());
+		values.put(Database.LAST_ID, place.getId());
 
 		// editing Row
 		database.update(Database.TABLE_LASTLIST, values, Database.PRIME_ID
@@ -121,7 +121,7 @@ public class DataPlaces {
 			do {
 				Place p = new Place();
 				p.setName(cursor.getString(1));
-				p.setID(cursor.getInt(2)); // INFO ID of Place = PrimeID on
+				p.setId(cursor.getInt(2)); // INFO ID of Place = PrimeID on
 											// Server
 				// Adding to list
 				List.add(p);
@@ -164,7 +164,7 @@ public class DataPlaces {
 	public void addFavoritePlace(Place place) {
 
 		ContentValues values = new ContentValues();
-		values.put(Database.FAV_PLACE_ID, place.getID());
+		values.put(Database.FAV_PLACE_ID, place.getId());
 		// Inserting Row
 		database.insert(Database.TABLE_FAVORITE, null, values);
 
@@ -179,7 +179,7 @@ public class DataPlaces {
 	 */
 	public void editFavoritePlace(Place place, int fav_place_id) {
 		ContentValues values = new ContentValues();
-		values.put(Database.FAV_PLACE_ID, place.getID());
+		values.put(Database.FAV_PLACE_ID, place.getId());
 
 		// editing Row
 		database.update(Database.TABLE_FAVORITE, values, Database.FAV_PLACE_ID
@@ -214,7 +214,7 @@ public class DataPlaces {
 		if (cursor.moveToFirst()) {
 			do {
 				Place p = new Place();
-				p.setID(cursor.getInt(1)); // INFO ID of Place = PrimeID on
+				p.setId(cursor.getInt(1)); // INFO ID of Place = PrimeID on
 											// Server
 				// Adding to list
 				List.add(p);
@@ -258,7 +258,7 @@ public class DataPlaces {
 
 		ContentValues values = new ContentValues();
 		values.put(Database.NAME, place.getName());
-		values.put(Database.PLACE_ID, place.getID());
+		values.put(Database.PLACE_ID, place.getId());
 		// Inserting Row
 		database.insert(Database.TABLE_MYPLACES, null, values);
 
@@ -274,7 +274,7 @@ public class DataPlaces {
 	public void editDonePlace(Place place, int primeid) {
 		ContentValues values = new ContentValues();
 		values.put(Database.NAME, place.getName());
-		values.put(Database.PLACE_ID, place.getID());
+		values.put(Database.PLACE_ID, place.getId());
 
 		// editing Row
 		database.update(Database.TABLE_MYPLACES, values, Database.PRIME_ID
@@ -310,7 +310,7 @@ public class DataPlaces {
 			do {
 				Place p = new Place();
 				p.setName(cursor.getString(1));
-				p.setID(cursor.getInt(2)); // INFO ID of Place = PrimeID on
+				p.setId(cursor.getInt(2)); // INFO ID of Place = PrimeID on
 											// Server
 				// Adding to list
 				List.add(p);

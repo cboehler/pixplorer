@@ -361,7 +361,6 @@
 
 package appjunkies.pixplorer.fragments;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -388,18 +387,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import appjunkies.pixplorer.OnItemClickListener;
 import appjunkies.pixplorer.R;
 import appjunkies.pixplorer.activities.HomeActivity;
 import appjunkies.pixplorer.database.DataPlaces;
 import appjunkies.pixplorer.model.Place;
-import appjunkies.pixplorer.network.Client;
-import appjunkies.pixplorer.other.FontAwesomeFont;
 import appjunkies.pixplorer.view.adapter.PlaceAdapter;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.mikepenz.iconics.IconicsDrawable;
 
 public class Explore extends Fragment
 //implements OnClickListener
@@ -450,32 +445,7 @@ public class Explore extends Fragment
         System.out.println("Show ALL first time");
        
         
-        //test Client
-//        
-//        Thread t = new Thread(){
-//        	public void run() {
-//        		Client client = new Client();
-//        		try {
-//        			splace=client.getPlace().getName().toString()+"\n"+
-//        					client.getPlace().getID()+"\n"+
-//        					client.getPlace().getCategory()+"\n"+
-//        					client.getPlace().getPoints()+"\n"+
-//        					client.getPlace().getUrl().toString();
-//        			System.out.println(client.getPlace().getName());
-//        			System.out.println(client.getPlace().getCategory());
-//        			System.out.println(client.getPlace().getID());
-//        			System.out.println(client.getPlace().getPoints());
-//        			System.out.println(client.getPlace().getUrl());
-//        		} catch (UnsupportedOperationException e) {
-//        			// TODO Auto-generated catch block
-//        			e.printStackTrace();
-//        		} catch (IOException e) {
-//        			// TODO Auto-generated catch block
-//        			e.printStackTrace();
-//        		}
-//        	};
-//        };
-//        t.start();
+       
         
 //        Toast.makeText(null, splace, Toast.LENGTH_SHORT).show();
         
@@ -509,62 +479,63 @@ public class Explore extends Fragment
         i1 = new Place();
         i1.setName("Inn");
         i1.setPoints(5);
-        i1.setCategory(3);
-        i1.setID(1);
+//        i1.setCategory(new Category().setId(1));
+        i1.setId(1);
         i1.setImageSrc("http://images.forwallpaper.com/files/thumbs/preview/18/189739__innsbruck-on-the-river_p.jpg");
         i2 = new Place();
         i2.setName("Pro Libertate");
         i2.setPoints(10);
-        i2.setCategory(4);
-        i2.setID(2);
+//        i2.setCategory(4);
+        i2.setId(2);
         i2.setImageSrc("https://c2.staticflickr.com/6/5265/5669558527_709c8250c5_b.jpg");
         i3 = new Place();
         i3.setName("Mountain");
         i3.setPoints(30);
-        i3.setCategory(4);
-        i3.setID(3);
+//        i3.setCategory(4);
+        i3.setId(3);
         i3.setImageSrc("http://ngm.nationalgeographic.com/u/TvyamNb-BivtNwcoxtkc5xGBuGkIMh_nj4UJHQKuorcp_uWqvnh2IoUTL5OIs7FLbLAs0V4Ci6dyow/");
         i4 = new Place();
         i4.setName("Jump Out");
         i4.setPoints(15);
-        i4.setCategory(3);
-        i4.setID(4);
+//        i4.setCategory(3);
+        i4.setId(4);
         i4.setImageSrc("http://www.innsbruck.info/uploads/tx_seoferatel/094fc758-719a-4b24-9fd9-10a9c1af51d8.jpg");
         i5 = new Place();
         i5.setName("Center");
         i5.setPoints(20);
-        i5.setCategory(3);
-        i5.setID(5);
+//        i5.setCategory(3);
+        i5.setId(5);
         i5.setImageSrc("https://backroadjournal.files.wordpress.com/2012/10/img_0625.jpg");
         i6 = new Place();
         i6.setName("Swarowski");
         i6.setPoints(50);
-        i6.setCategory(3);
-        i6.setID(6);
+//        i6.setCategory(3);
+        i6.setId(6);
         i6.setImageSrc("http://www.bergland.com/uploads/pics/swarovski_1_09.jpg");
-        i7 = new Place();
-        i7.setName("Camaro 1");
-        i7.setPoints(1000);
-        i7.setCategory(3);
-        i7.setID(7);
-        i7.setImageSrc("http://www.hdwallpapers.in/walls/chevrolet_camaro_ss-wide.jpg");
+         i7 = new Place();
+        i7.setName("Pragser Wildsee");
+        i7.setPoints(222);
+//        i7.setCategory(3);
+        i7.setId(7);
+        i7.setImageSrc("http://i62.tinypic.com/qnsepw.jpg");
+        
         i8 = new Place();
-        i8.setName("Camaro 2");
-        i8.setPoints(1000);
-        i8.setCategory(3);
-        i8.setID(8);
-        i8.setImageSrc("http://www.hdwallpapers.in/walls/chevrolet_camaro_ss-wide.jpg");
+        i8.setName("Skiing");
+        i8.setPoints(300);
+//        i8.setCategory(3);
+        i8.setId(8);
+        i8.setImageSrc("http://scontent-b-fra.cdninstagram.com/hphotos-xfa1/t51.2885-15/s306x306/e15/10932410_1544715455813452_1107632347_n.jpg");
         i9 = new Place();
-        i9.setName("Camaro 3");
-        i9.setPoints(1000);
-        i9.setCategory(3);
-        i9.setID(9);
-        i9.setImageSrc("http://www.hdwallpapers.in/walls/chevrolet_camaro_ss-wide.jpg");
+        i9.setName("Bridge");
+        i9.setPoints(150);
+//        i9.setCategory(3);
+        i9.setId(9);
+        i9.setImageSrc("http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10914370_1519297625009641_722250486_n.jpg");
         i10 = new Place();
-        i10.setName("Camaro 4");
+        i10.setName("Camaro");
         i10.setPoints(1000);
-        i10.setCategory(3);
-        i10.setID(10);
+//        i10.setCategory(3);
+        i10.setId(10);
         i10.setFeatured(true);
         i10.setImageSrc("http://www.hdwallpapers.in/walls/chevrolet_camaro_ss-wide.jpg");
        
@@ -602,7 +573,7 @@ public class Explore extends Fragment
                      			List<Place> favplaces = favorites.getFavorites();
                      			for (int i = 0; i < mPlaces.size(); i++) {	
                      				for (int j = 0; j < favcount; j++) {	
-                     					if (mPlaces.get(i).getID()==favplaces.get(j).getID()){
+                     					if (mPlaces.get(i).getId()==favplaces.get(j).getId()){
                      						mPlaces.get(i).setFavorite(true);
                      						break;
                      					}else{
@@ -669,65 +640,66 @@ public class Explore extends Fragment
             i1 = new Place();
             i1.setName("Inn");
             i1.setPoints(5);
-            i1.setCategory(3);
-            i1.setID(1);
+//            i1.setCategory(new Category().setId(1));
+            i1.setId(1);
             i1.setImageSrc("http://images.forwallpaper.com/files/thumbs/preview/18/189739__innsbruck-on-the-river_p.jpg");
             i2 = new Place();
             i2.setName("Pro Libertate");
             i2.setPoints(10);
-            i2.setCategory(4);
-            i2.setID(2);
+//            i2.setCategory(4);
+            i2.setId(2);
             i2.setImageSrc("https://c2.staticflickr.com/6/5265/5669558527_709c8250c5_b.jpg");
             i3 = new Place();
             i3.setName("Mountain");
             i3.setPoints(30);
-            i3.setCategory(4);
-            i3.setID(3);
+//            i3.setCategory(4);
+            i3.setId(3);
             i3.setImageSrc("http://ngm.nationalgeographic.com/u/TvyamNb-BivtNwcoxtkc5xGBuGkIMh_nj4UJHQKuorcp_uWqvnh2IoUTL5OIs7FLbLAs0V4Ci6dyow/");
             i4 = new Place();
             i4.setName("Jump Out");
             i4.setPoints(15);
-            i4.setCategory(3);
-            i4.setID(4);
+//            i4.setCategory(3);
+            i4.setId(4);
             i4.setImageSrc("http://www.innsbruck.info/uploads/tx_seoferatel/094fc758-719a-4b24-9fd9-10a9c1af51d8.jpg");
             i5 = new Place();
             i5.setName("Center");
             i5.setPoints(20);
-            i5.setCategory(3);
-            i5.setID(5);
+//            i5.setCategory(3);
+            i5.setId(5);
             i5.setImageSrc("https://backroadjournal.files.wordpress.com/2012/10/img_0625.jpg");
             i6 = new Place();
             i6.setName("Swarowski");
             i6.setPoints(50);
-            i6.setCategory(3);
-            i6.setID(6);
+//            i6.setCategory(3);
+            i6.setId(6);
             i6.setImageSrc("http://www.bergland.com/uploads/pics/swarovski_1_09.jpg");
-            i7 = new Place();
-            i7.setName("Camaro 1");
-            i7.setPoints(1000);
-            i7.setCategory(3);
-            i7.setID(7);
-            i7.setImageSrc("http://www.hdwallpapers.in/walls/chevrolet_camaro_ss-wide.jpg");
+             i7 = new Place();
+            i7.setName("Pragser Wildsee");
+            i7.setPoints(222);
+//            i7.setCategory(3);
+            i7.setId(7);
+            i7.setImageSrc("http://i62.tinypic.com/qnsepw.jpg");
+            
             i8 = new Place();
-            i8.setName("Camaro 2");
-            i8.setPoints(1000);
-            i8.setCategory(3);
-            i8.setID(8);
-            i8.setImageSrc("http://www.hdwallpapers.in/walls/chevrolet_camaro_ss-wide.jpg");
+            i8.setName("Skiing");
+            i8.setPoints(300);
+//            i8.setCategory(3);
+            i8.setId(8);
+            i8.setImageSrc("http://scontent-b-fra.cdninstagram.com/hphotos-xfa1/t51.2885-15/s306x306/e15/10932410_1544715455813452_1107632347_n.jpg");
             i9 = new Place();
-            i9.setName("Camaro 3");
-            i9.setPoints(1000);
-            i9.setCategory(3);
-            i9.setID(9);
-            i9.setImageSrc("http://www.hdwallpapers.in/walls/chevrolet_camaro_ss-wide.jpg");
+            i9.setName("Bridge");
+            i9.setPoints(150);
+//            i9.setCategory(3);
+            i9.setId(9);
+            i9.setImageSrc("http://scontent-b-fra.cdninstagram.com/hphotos-xaf1/t51.2885-15/s306x306/e15/10914370_1519297625009641_722250486_n.jpg");
             i10 = new Place();
-            i10.setName("Camaro 4");
+            i10.setName("Camaro");
             i10.setPoints(1000);
-            i10.setCategory(3);
-            i10.setID(10);
+//            i10.setCategory(3);
+            i10.setId(10);
             i10.setFeatured(true);
             i10.setImageSrc("http://www.hdwallpapers.in/walls/chevrolet_camaro_ss-wide.jpg");
-            
+           
             mPlaces.add(i1);
             mPlaces.add(i6);
             mPlaces.add(i2);
@@ -738,7 +710,6 @@ public class Explore extends Fragment
             mPlaces.add(i8);
             mPlaces.add(i9);
             mPlaces.add(i10);
-            
             updateAdapter(mPlaces);
             
             mPlacesProgress.setVisibility(View.GONE);
@@ -751,7 +722,7 @@ public class Explore extends Fragment
     private void showCategory(int category) {
     	ArrayList<Place> list = new ArrayList<Place>(mPlaces);
         for (Iterator<Place> it = list.iterator(); it.hasNext(); ) {
-            if ((it.next().getCategory() & category) != category) {
+            if ((it.next().getCategory().getId() & category) != category) {
                 it.remove();
             }
         }
@@ -769,7 +740,7 @@ public class Explore extends Fragment
         if (featured == null) {
             ArrayList<Place> list = new ArrayList<Place>(arrplace);
             for (Iterator<Place> it = list.iterator(); it.hasNext(); ) {
-                if (it.next().getFeatured() == false) {
+                if (it.next().isFeatured() == false) {
                     it.remove();
                 }
             }

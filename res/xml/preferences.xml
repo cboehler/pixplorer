@@ -29,7 +29,7 @@
             android:title="@string/title_developer" >
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://plus.google.com/u/0/+EmmeP%C3%B6rni/about" />
+                android:data="https://plus.google.com/u/0/b/114051326412928353391/114051326412928353391/about" />
         </PreferenceScreen>
 
        	<appjunkies.pixplorer.other.VersionPreference android:title="@string/version" />

@@ -8,18 +8,18 @@ package com.mikepenz.iconics;
 
 public final class R {
 	public static final class string {
-		public static final int app_name = 0x7f08004c;
-		public static final int define_AndroidIconics = 0x7f080040;
-		public static final int library_AndroidIconics_author = 0x7f080041;
-		public static final int library_AndroidIconics_authorWebsite = 0x7f080042;
-		public static final int library_AndroidIconics_isOpenSource = 0x7f080048;
-		public static final int library_AndroidIconics_libraryDescription = 0x7f080044;
-		public static final int library_AndroidIconics_libraryName = 0x7f080043;
-		public static final int library_AndroidIconics_libraryVersion = 0x7f080045;
-		public static final int library_AndroidIconics_libraryWebsite = 0x7f080046;
-		public static final int library_AndroidIconics_licenseId = 0x7f080047;
-		public static final int library_AndroidIconics_owner = 0x7f08004a;
-		public static final int library_AndroidIconics_repositoryLink = 0x7f080049;
-		public static final int library_AndroidIconics_year = 0x7f08004b;
+		public static final int app_name = 0x7f0c0010;
+		public static final int define_AndroidIconics = 0x7f0c0041;
+		public static final int library_AndroidIconics_author = 0x7f0c0042;
+		public static final int library_AndroidIconics_authorWebsite = 0x7f0c0043;
+		public static final int library_AndroidIconics_isOpenSource = 0x7f0c0049;
+		public static final int library_AndroidIconics_libraryDescription = 0x7f0c0045;
+		public static final int library_AndroidIconics_libraryName = 0x7f0c0044;
+		public static final int library_AndroidIconics_libraryVersion = 0x7f0c0046;
+		public static final int library_AndroidIconics_libraryWebsite = 0x7f0c0047;
+		public static final int library_AndroidIconics_licenseId = 0x7f0c0048;
+		public static final int library_AndroidIconics_owner = 0x7f0c004b;
+		public static final int library_AndroidIconics_repositoryLink = 0x7f0c004a;
+		public static final int library_AndroidIconics_year = 0x7f0c004c;
 	}
 }

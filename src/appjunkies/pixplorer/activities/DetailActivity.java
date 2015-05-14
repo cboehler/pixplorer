@@ -1,7 +1,11 @@
 package appjunkies.pixplorer.activities;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.animation.Animator;
@@ -14,8 +18,11 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +58,8 @@ import com.mikepenz.iconics.IconicsDrawable;
 public class DetailActivity extends ActionBarActivity {
     private static final int ACTIVITY_CROP = 13451;
     private static final int ACTIVITY_SHARE = 13452;
+    
+    private static final int IMAGE_CAPTURE = 2;
 
     private static final int ANIMATION_DURATION_SHORT = 150;
     private static final int ANIMATION_DURATION_MEDIUM = 300;
@@ -78,6 +87,8 @@ public class DetailActivity extends ActionBarActivity {
 
     boolean featured= false;
     boolean ISfavorite =false;
+    
+    String takenImagePath="";
     
     public interface Listener {
 		public void givePoints(int mpoints);
@@ -125,7 +136,7 @@ public class DetailActivity extends ActionBarActivity {
         mFabPhoto.setScaleX(0);
         mFabPhoto.setScaleY(0);
         mFabPhoto.setImageDrawable(mDrawablePhoto);
-        mFabPhoto.setOnClickListener(onFabButtonListener);
+        mFabPhoto.setOnClickListener(onPhotoFabListener);
         //just allow the longClickAction on Devices newer than api level v19
         if (Build.VERSION.SDK_INT >= 19) {
             mFabPhoto.setOnLongClickListener(onFabButtonLongListener);
@@ -142,15 +153,12 @@ public class DetailActivity extends ActionBarActivity {
 		int favcount =favorites.getFavoriteCount();
 		if (favcount>0) {
 			List<Place> favplaces = favorites.getFavorites();
-			for (int i = 0; i < favcount; i++) {
-				System.out.println("all Fav: "+favplaces.get(i).getID());	
-				System.out.println("mselectedInit: "+mSelectedImage.getID());	
-				if (mSelectedImage.getID()==favplaces.get(i).getID()){
+			for (int i = 0; i < favcount; i++) {	
+				if (mSelectedImage.getId()==favplaces.get(i).getId()){
 					mFabFavorite.setImageDrawable(new IconicsDrawable(this,
 							FontAwesomeFont.Icon.faw_heart).color(
 							getResources().getColor(R.color.white)).sizeDp(20));
 					ISfavorite=true;
-					System.out.println("favID: "+favplaces.get(i).getID());	
 					break;
 				}
 				else{
@@ -177,7 +185,7 @@ public class DetailActivity extends ActionBarActivity {
         mFabSpecial.setScaleX(0);
         mFabSpecial.setScaleY(0);
 		mFabSpecial.setEnabled(true);
-		if (mSelectedImage.getFeatured()==true){
+		if (mSelectedImage.isFeatured()==true){
 					mFabSpecial.setImageDrawable(new IconicsDrawable(this,
 							GoogleMaterialFont.Icon.gmd_star).color(
 							getResources().getColor(R.color.white)).sizeDp(20));
@@ -298,12 +306,9 @@ public class DetailActivity extends ActionBarActivity {
         		if (favcount>0) {
 					List<Place> favplaces = favorites.getFavorites();
 					for (int i = 0; i < favcount; i++) {
-						
-						System.out.println("all onclickIDs: "+favplaces.get(i).getID());	
-						System.out.println("mselected ID: "+mSelectedImage.getID());
-						if (favplaces.get(i).getID()==mSelectedImage.getID()){
+						if (favplaces.get(i).getId()==mSelectedImage.getId()){
 							delete =true;
-							delID=favplaces.get(i).getID();
+							delID=favplaces.get(i).getId();
 							System.out.println("deletedID "+delID);
 						}
 						else{
@@ -398,8 +403,8 @@ public class DetailActivity extends ActionBarActivity {
 //        }
 //    };
 
-
-    private View.OnClickListener onFabButtonListener = new View.OnClickListener() {
+    //TODO
+    private View.OnClickListener onPhotoFabListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 //            if (future == null) {
@@ -408,22 +413,43 @@ public class DetailActivity extends ActionBarActivity {
 //                        .load(mSelectedImage.getHighResImage(mWallpaperWidth, mWallpaperHeight))
 //                        .progressHandler(progressCallback)
 //                        .asInputStream();
-//
-//                hideFabs();
-//
-//                mFabPhoto.animate().rotation(360).setDuration(ANIMATION_DURATION_LONG).setListener(new CustomAnimatorListener() {
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        streamAndSetImage();
-//                        super.onAnimationEnd(animation);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationCancel(Animator animation) {
-//                        streamAndSetImage();
-//                        super.onAnimationCancel(animation);
-//                    }
-//                }).start();
+
+                hideFabs();
+                takenImagePath ="";
+                mFabPhoto.animate().rotation(360).setDuration(ANIMATION_DURATION_LONG).setListener(new CustomAnimatorListener() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                    	Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    				    // Ensure that there's a camera activity to handle the intent
+    				    if (takePictureIntent.resolveActivity(getPackageManager()) != null)
+    				    {
+    				        // Create the File where the photo should go
+    				        File image = null;
+    				        try
+    				        {
+    				            image = createImageFile();
+    				        }
+    				        catch (IOException ex)
+    				        {
+    				            // Error occurred while creating the File..handle
+    				        }
+    				        // Continue only if the File was successfully created
+    				        if (image != null)
+    				        {
+    				            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+    				                    Uri.fromFile(image));
+    				            startActivityForResult(takePictureIntent, IMAGE_CAPTURE);
+    				        }
+    				    }
+                        super.onAnimationEnd(animation);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    	animateActivityStart();
+                        super.onAnimationCancel(animation);
+                    }
+                }).start();
 //            } else {
 //                animateReset(false);
 //            }
@@ -935,4 +961,36 @@ public class DetailActivity extends ActionBarActivity {
             // ew;
         }
     }
+    
+    /**
+     * create the image from the taken photo
+     * @return imagepath
+     * @throws IOException
+     */
+    private File createImageFile() throws IOException
+	{
+	    // Create an image file name
+	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+	    String imageFileName = "IMG_" + timeStamp + "_";
+	    File img;
+			File sds = Environment.getExternalStorageDirectory();
+			String destinations = "/DCIM/Pixplorer";
+			File storageDir = new File(sds, destinations);
+			if(!storageDir.exists()) {
+				storageDir.mkdir();
+            }
+			img = File.createTempFile(
+					imageFileName, /* prefix */
+					".jpg", /* suffix */
+					storageDir /* directory */
+			);
+			
+		
+	    // Save a file: path for use with ACTION_VIEW intents
+	    takenImagePath = img.getAbsolutePath();
+//	    imagepath ="file:" + img.getAbsolutePath();
+	    return img;
+	}
+    
+    
 }
