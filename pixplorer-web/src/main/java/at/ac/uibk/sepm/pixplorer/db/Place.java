@@ -186,4 +186,18 @@ public class Place implements Serializable {
 	public void setScore(int score) {
 		this.score = score;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		
+		if (obj instanceof Place) {
+			Place place = (Place) obj;
+			return place.getId() == id;
+		}
+		
+		return false;
+	}
 }

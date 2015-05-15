@@ -27,10 +27,11 @@ public class RandomPlaceGenerator {
 	 * @return
 	 */
 	
-	public Place[] getPlaces(User user, Integer amount){
+	public List<Place> getPlaces(User user, Integer amount){
 		return this.getPlaces(user, amount, false);
 	}
-	public Place[] getPlaces(User user,Integer amount, boolean special){
+	
+	public List<Place> getPlaces(User user,Integer amount, boolean special){
 		
 		Category category = null;
 		if(user.getType() == 0){
@@ -47,7 +48,7 @@ public class RandomPlaceGenerator {
 		
 		List<Place> places =  PersistenceManager.getAll(Place.class);
 		
-		Place[] ret_places = new Place[amount];
+		List<Place> ret_places = new ArrayList<>();
 		Integer place_id;
 		
 		for(int i = 0; i< amount ; i++){
@@ -69,7 +70,7 @@ public class RandomPlaceGenerator {
 				temp = places.get(place_id);
 			}
 			
-			ret_places[i] = temp;
+			ret_places.add(temp);
 			places.remove(places.get(place_id));
 		}
 		

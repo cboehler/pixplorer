@@ -1,5 +1,6 @@
 package at.ac.uibk.sepm.pixplorer.rest;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -11,67 +12,67 @@ import javax.ws.rs.core.MediaType;
 import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
 import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.db.User;
+import at.ac.uibk.sepm.pixplorer.rest.msg.AbstractReply;
+import at.ac.uibk.sepm.pixplorer.rest.msg.FoundReply;
+import at.ac.uibk.sepm.pixplorer.rest.msg.FoundRequest;
 
 import com.google.gson.Gson;
 
 
 @Path("/found")
 public class Found {
+	private static final Gson gson = new Gson();	
 	
-	Gson gson = new Gson();
 	Random random = new Random();
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String found(String json){
+	public String found(String json) {
+		FoundRequest request = gson.fromJson(json, FoundRequest.class);
 		
-		/*Order of objects: 1. String "username" 
-		 * 					2. Place  " found place"
-		 * 					3. GPS Coordinates
-		 * 					4. String Image?	
-		 */
+		String username = request.getGoogleId();
+		int foundPlaceId = request.getFoundPlace();
 		
-		Object[] objects = JsonUtils.getObjectsFromJson(json);
+		FoundReply reply = new FoundReply();
 		
-		String username = String.class.cast(objects[0]);
-		Place found_place = Place.class.cast(objects[1]);
-						
-		String filter = "where x.googleId = '" + username + "'";
+		List<User> users = PersistenceManager.get(User.class, "where x.googleId = '" + username + "'");
+		if (users.isEmpty()) {
+			reply.setReturnCode(AbstractReply.RET_USER_NOT_FOUND);
+			return gson.toJson(reply);
+		}
 		
-		User user = PersistenceManager.get(User.class, filter).get(0);
+		User user = users.get(0);
 		
-		if(user == null)
-			return null;
+		List<Place> places = PersistenceManager.get(Place.class, "where x.id = " + foundPlaceId); 
+		if (places.isEmpty()) {
+			reply.setReturnCode(AbstractReply.RET_PLACE_NOT_FOUND);
+			return gson.toJson(reply);			
+		}
 		
-		/*Update User */
-		/*filter = "where x.name = '" + found_place.getName() + "'";
-		found_place = PersistenceManager.get(Place.class, filter).get(0);*/
+		Place place = places.get(0);
+		
+		// TODO: add check if gps data is correct
 		
 		Set<Place> update = user.getFoundPlaces();
-		update.add(found_place);				
-		user.setFoundPlaces(update);
-		//user.setScore(user.getScore()+found_place.get);
+		if (!update.contains(place)) {
+			update.add(place);
+		}
+		
+		place.setCount(place.getCount() + 1);
+		
+		// update the user score
+		user.setScore(user.getScore() + place.getScore());
 		
 		PersistenceManager.save(user);
 				
+		// TODO: check if the user has reached new trophies...
+		
 		/*Get randomplaces from RandomplaceGenerator*/
 		RandomPlaceGenerator generator = new RandomPlaceGenerator();
-		Place[] places = generator.getPlaces(user,1);
+		List<Place> newPlaces = generator.getPlaces(user,1);
+		reply.setPlaces(newPlaces);
 		
-		/* Get Found Place from DataBase */
-		filter = "where x.id = '" + found_place.getId() + "'";		
-		Place p = PersistenceManager.get(Place.class, filter).get(0);
-		
-		if(p == null ){			
-			return null;
-		}
-		
-		/* Update place count */
-		/* BE CAREFUL! Increment of place.count not atomic!!*/
-		p.setCount(p.getCount()+1);
-		PersistenceManager.save(p);		
-				
-		return JsonUtils.createJsonString(places);		
+		return gson.toJson(reply);		
 		
 	}
 }

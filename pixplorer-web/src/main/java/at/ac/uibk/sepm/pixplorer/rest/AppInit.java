@@ -13,45 +13,64 @@ import at.ac.uibk.sepm.pixplorer.db.GPSData;
 import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
 import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.db.User;
+import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitReply;
+import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitRequest;
 
+import com.google.gson.Gson;
 
+/**
+ * Web Service that is invoked when the App is started. 
+ * @author cbo, cfi
+ */
 @Path("/init")
 public class AppInit {
+	
+	private static final Gson gson = new Gson();	
 	
 	//Method is called when Client opened App and decided to play as Tourist or Local	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String init(String json){		
+		// create some test content if necessary
 		createDummyContent();
 		
-		Object[] objects = JsonUtils.getObjectsFromJson(json);
-		Integer option = Integer.class.cast(objects[0]);
-		String username = String.class.cast(objects[1]);
+		// parse request from client
+		AppInitRequest request = gson.fromJson(json, AppInitRequest.class);
+		int option = request.getOption();
+		String userName = request.getGoogleId();
 		
 		// check if user exists
-		List<User> users = PersistenceManager.get(User.class, "where x.googleId = '" + username + "'");
+		List<User> users = PersistenceManager.get(User.class, "where x.googleId = '" + userName + "'");
 		
 		User user = null;
 		if (users.isEmpty()) {
 			user = new User();
-			user.setGoogleId(username);
-			user.setType(option);
+			user.setGoogleId(request.getGoogleId());
+			user.setType(request.getOption());
 			PersistenceManager.save(user);			
 		} else {
 			user = users.get(0);
 		}
 		
-		if (user.getType() != option) {
+		// check if user type is different
+		if (user.getType() != request.getOption()) {
 			user.setType(option);
 			PersistenceManager.save(user);
 		}
 		
+		// generate some new places for the user
 		RandomPlaceGenerator generator = new RandomPlaceGenerator();
-		Place[] places = generator.getPlaces(user , 10);
+		List<Place> places = generator.getPlaces(user , 10);
 		
-		return JsonUtils.createJsonString(places);
+		AppInitReply reply = new AppInitReply();
+		reply.setPlaces(places);
+		
+		return gson.toJson(reply);
 	}
 
+	/**
+	 * Creates some test content.. Will be removed
+	 */
 	private void createDummyContent() {
 		List<Category> categories = PersistenceManager.getAll(Category.class);
 		

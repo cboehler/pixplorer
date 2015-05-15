@@ -1,27 +1,28 @@
-package database;
+package at.ac.uibk.sepm.pixplorer.db;
 
 import java.io.Serializable;
 
 
-
+/**
+ * Hibernate entity class for the gpsdata table. Each place has its unique gps 
+ * coordinates. The gps data are used to determine if a user has found a place
+ * or not.
+ * 
+ * @author cbo
+ */
 public class GPSData implements Serializable {
-	
 	private int id;
-	
-	private double longitude;
-	
+	private double longitude;	
 	private double latitude;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}	
 	
-	private Place place;
-
-	public Place getPlace() {
-		return place;
-	}
-
-	public void setPlace(Place place) {
-		this.place = place;
-	}
-
 	public double getLongitude() {
 		return longitude;
 	}
@@ -36,14 +37,6 @@ public class GPSData implements Serializable {
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 }
