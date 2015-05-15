@@ -14,6 +14,7 @@ import at.ac.uibk.sepm.pixplorer.db.User;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AbstractReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.ExploreReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.ExploreRequest;
+import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
 
 import com.google.gson.Gson;
 

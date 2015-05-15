@@ -15,6 +15,7 @@ import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.db.User;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitRequest;
+import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
 
 import com.google.gson.Gson;
 
@@ -127,8 +128,7 @@ public class AppInit {
 				break;				
 			}
 			
-
-			place.setScore(random.nextInt());
+			place.setScore(random.nextInt(100));
 			
 			PersistenceManager.save(place);
 		}

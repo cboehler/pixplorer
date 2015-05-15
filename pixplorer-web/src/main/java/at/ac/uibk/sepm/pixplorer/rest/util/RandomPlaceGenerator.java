@@ -1,4 +1,4 @@
-package at.ac.uibk.sepm.pixplorer.rest;
+package at.ac.uibk.sepm.pixplorer.rest.util;
 
 import java.util.ArrayList;
 import java.util.List;

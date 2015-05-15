@@ -15,6 +15,7 @@ import at.ac.uibk.sepm.pixplorer.db.User;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AbstractReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialRequest;
+import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
 
 @Path("special")
 public class Special {
@@ -38,7 +39,9 @@ public class Special {
 		User user = users.get(0);
 
 		RandomPlaceGenerator generator = new RandomPlaceGenerator();
-		List<Place> places = generator.getPlaces(user, 5, true);
+		
+		// TODO Christian: flag wieder auf true setzen dafür Algorithmus fixen (IndexOutOfBoundsException)
+		List<Place> places = generator.getPlaces(user, 5, false);  
 		reply.setPlaces(places);
 		
 		return gson.toJson(reply);

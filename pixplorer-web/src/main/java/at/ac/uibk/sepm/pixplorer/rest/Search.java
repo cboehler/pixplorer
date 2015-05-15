@@ -10,28 +10,34 @@ import javax.ws.rs.core.MediaType;
 import at.ac.uibk.sepm.pixplorer.db.Category;
 import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
 import at.ac.uibk.sepm.pixplorer.db.Place;
+import at.ac.uibk.sepm.pixplorer.db.User;
+import at.ac.uibk.sepm.pixplorer.rest.msg.AbstractReply;
+import at.ac.uibk.sepm.pixplorer.rest.msg.SearchReply;
+import at.ac.uibk.sepm.pixplorer.rest.msg.SearchRequest;
 
 import com.google.gson.Gson;
 
 
 @Path("/search")
 public class Search {	
-	
-	Gson gson = new Gson();	
+	private static final Gson gson = new Gson();	
 	
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String search(String json){
+		SearchRequest request = gson.fromJson(json, SearchRequest.class);
+		String username = request.getGoogleId();
+
+		SearchReply reply = new SearchReply();
 		
-		/*
-		 * Order of objects: 1. String for searching Places
-		 * 
-		 */
+		List<User> users = PersistenceManager.get(User.class, "where x.googleId = '" + username + "'");
+		if (users.isEmpty()) {
+			reply.setReturnCode(AbstractReply.RET_USER_NOT_FOUND);
+			return gson.toJson(reply);
+		}
 		
-		Object[] objects = JsonUtils.getObjectsFromJson(json);
-		
-		String search_str = String.class.cast(objects[0]);
+		User user = users.get(0);
 		
 		List<Category> categories = PersistenceManager.getAll(Category.class);
 		
@@ -39,18 +45,21 @@ public class Search {
 		
 		/*First check if User searches Places of a certain Category*/
 		for(Category c : categories){
-			if(c.getName().equals(search_str)){
+			if(c.getName().equals(request.getFilter())){
 				filter = "where x.category = '" + c.getId() + "'";
 				break;	
 			}
 		}
 		
 		/*If user does't search for Places of a certain Category, search for Places starting with search_str*/
-		if(filter == null)
-			filter = "where x.name like '" + search_str + "%'";			
-						
-		List<Place> places = PersistenceManager.get(Place.class,filter);		
-		return JsonUtils.createJsonString(places.toArray());
+		if (filter == null) {
+			filter = "where x.name like '" + request.getFilter() + "%'";			
+		}
+		
+		List<Place> places = PersistenceManager.get(Place.class, filter);
+		reply.setPlaces(places);
+		
+		return gson.toJson(reply);
 		
 	}
 
