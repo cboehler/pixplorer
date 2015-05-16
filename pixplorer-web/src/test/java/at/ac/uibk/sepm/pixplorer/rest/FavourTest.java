@@ -74,7 +74,8 @@ public class FavourTest {
 			Assert.fail();
 		} catch (ReplyException e) {
 			Assert.assertEquals(AbstractReply.RET_PLACE_NOT_FOUND, reply.getReturnCode());
-		}	}
+		}	
+	}
 	
 	@Test
 	public void testInvalidUser() {

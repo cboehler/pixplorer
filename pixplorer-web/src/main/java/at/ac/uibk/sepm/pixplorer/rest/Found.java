@@ -1,7 +1,6 @@
 package at.ac.uibk.sepm.pixplorer.rest;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -9,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import at.ac.uibk.sepm.pixplorer.db.GPSData;
 import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
 import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.db.User;
@@ -23,8 +23,6 @@ import com.google.gson.Gson;
 @Path("/found")
 public class Found {
 	private static final Gson gson = new Gson();	
-	
-	Random random = new Random();
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -51,8 +49,12 @@ public class Found {
 		}
 		
 		Place place = places.get(0);
+		GPSData gps = place.getGpsData();
 		
-		// TODO: add check if gps data is correct
+		if (gps.getLatitude() != request.getLatitude() || gps.getLongitude() != request.getLongitude()) {
+			reply.setReturnCode(AbstractReply.RET_INVALUD_COORDINATES);
+			return gson.toJson(reply);
+		}
 		
 		Set<Place> update = user.getFoundPlaces();
 		if (!update.contains(place)) {
