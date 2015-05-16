@@ -28,22 +28,47 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.SearchRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialRequest;
 
+/**
+ * Class that handles the server communication. A connection string and a google user
+ * id have to be specified. Every method represents one single REST method on the
+ * Pixplorer server.
+ * <p>
+ * The methods throw an {@link IOException} if the communication fails or an {@link ReplyException} if
+ * the reqeust could not be executed properly on the server.
+ * 
+ * @author cbo
+ *
+ */
 public class PixplorerHttpClient {
+	/** gson reference to parse/stringify the JSON objects */
 	private static final Gson gson = new Gson();
 	
-	private String url;
+	/** server url including ip, port and rest path */
+	private final String url;
+	
+	/** google id of the user playing pixplorer */
+	private final String googleId;
+	
+	/** apache http client class to send the requests */
 	private final CloseableHttpClient client;
 	
-	public PixplorerHttpClient(String url) {
+	/**
+	 * Constructor.
+	 * 
+	 * @param url - url to pixplorer server location e.g. localhost:8080/pixplorer/rest
+	 * @param googleId - google id of the user
+	 */
+	public PixplorerHttpClient(String url, String googleId) {
 		this.url = url;
+		this.googleId = googleId;
 		
-		if (!this.url.endsWith("/")) {
-			this.url += "/";
-		}
-
+		// user builder to create a new http client
 		this.client = HttpClientBuilder.create().build();
 	}
 	
+	/**
+	 * Closes the http connection. This method should be called if the app is closed.
+	 */
 	public void close() {
 		if (this.client != null) {
 			try {
@@ -54,7 +79,7 @@ public class PixplorerHttpClient {
 		}
 	}
 	
-	public List<Place> init(String googleId, int option) throws IOException, ReplyException {
+	public List<Place> init(int option) throws IOException, ReplyException {
 		AppInitRequest request = new AppInitRequest();
 		request.setGoogleId(googleId);
 		request.setOption(option);
@@ -67,7 +92,7 @@ public class PixplorerHttpClient {
 		}
 	}
 	
-	public List<Place> explore(String googleId) throws IOException, ReplyException {
+	public List<Place> explore() throws IOException, ReplyException {
 		ExploreRequest request = new ExploreRequest();
 		request.setGoogleId(googleId);
 
@@ -79,7 +104,7 @@ public class PixplorerHttpClient {
 		}
 	}	
 	
-	public void favourites(String googleId, int... favourites) throws IOException, ReplyException {
+	public void favourites(int... favourites) throws IOException, ReplyException {
 		FavourRequest request = new FavourRequest();
 		request.setGoogleId(googleId);
 
@@ -96,7 +121,7 @@ public class PixplorerHttpClient {
 		}
 	}	
 
-	public FoundReply found(String googleId, int placeId, double longitude, double latitude) throws IOException, ReplyException {
+	public FoundReply found(int placeId, double longitude, double latitude) throws IOException, ReplyException {
 		FoundRequest request = new FoundRequest();
 		request.setGoogleId(googleId);
 		request.setFoundPlace(placeId);
@@ -111,7 +136,7 @@ public class PixplorerHttpClient {
 		}
 	}	
 		
-	public List<Place> search(String googleId, String filter) throws IOException, ReplyException {
+	public List<Place> search(String filter) throws IOException, ReplyException {
 		SearchRequest request = new SearchRequest();
 		request.setGoogleId(googleId);
 		request.setFilter(filter);
@@ -124,7 +149,7 @@ public class PixplorerHttpClient {
 		}
 	}		
 	
-	public List<Place> special(String googleId) throws IOException, ReplyException {
+	public List<Place> special() throws IOException, ReplyException {
 		SpecialRequest request = new SpecialRequest();
 		request.setGoogleId(googleId);
 
@@ -137,8 +162,15 @@ public class PixplorerHttpClient {
 		}
 	}		
 	
-	
-	private HttpResponse sendRequest(String function, AbstractRequest request) throws IOException, ReplyException {
+	/**
+	 * Method to send a http post request i.e. invoke a REST function.
+	 * 
+	 * @param function - function name that should be called
+	 * @param request - request containing the needed information
+	 * @return an HttpResponse containing the answer from the server
+	 * @throws IOException if the server communication fails
+	 */
+	private HttpResponse sendRequest(String function, AbstractRequest request) throws IOException {
 		HttpPost post = new HttpPost(url + function);
 		post.setHeader("Content-type", "application/json");
 		post.setEntity(new StringEntity(gson.toJson(request)));

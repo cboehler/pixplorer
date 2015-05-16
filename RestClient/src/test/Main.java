@@ -13,37 +13,36 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/");
+		PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser@google.com");
 		
 		try {
-			List<Place> places = client.init("sampleuser@google.com", 1);
+			List<Place> places = client.init(1);
 
 			for (Place p : places) {
 				System.out.println(p.getName());
 			}
 
-			places = client.explore("sampleuser@google.com");
+			places = client.explore();
 
 			for (Place p : places) {
 				System.out.println(p.getName());
 			}
 
-			client.favourites("sampleuser@google.com", places.get(0).getId());
+			client.favourites(places.get(0).getId());
 
-			places = client.found("sampleuser@google.com",
-					places.get(1).getId(), 0.0d, 1.0d).getPlaces();
-
-			for (Place p : places) {
-				System.out.println(p.getName());
-			}
-
-			places = client.search("sampleuser@google.com", "Goldenes Dachl");
+			places = client.found(places.get(1).getId(), 0.0d, 1.0d).getPlaces();
 
 			for (Place p : places) {
 				System.out.println(p.getName());
 			}
 
-			places = client.special("sampleuser@google.com");
+			places = client.search("Goldenes Dachl");
+
+			for (Place p : places) {
+				System.out.println(p.getName());
+			}
+
+			places = client.special();
 
 			for (Place p : places) {
 				System.out.println(p.getName());
