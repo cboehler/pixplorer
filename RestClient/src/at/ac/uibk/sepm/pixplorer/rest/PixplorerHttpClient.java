@@ -22,6 +22,7 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.ExploreRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.FavourRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.FoundReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.FoundRequest;
+import at.ac.uibk.sepm.pixplorer.rest.msg.ReplyException;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SearchReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SearchRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialReply;
@@ -53,7 +54,7 @@ public class PixplorerHttpClient {
 		}
 	}
 	
-	public List<Place> init(String googleId, int option) throws IOException {
+	public List<Place> init(String googleId, int option) throws IOException, ReplyException {
 		AppInitRequest request = new AppInitRequest();
 		request.setGoogleId(googleId);
 		request.setOption(option);
@@ -61,22 +62,24 @@ public class PixplorerHttpClient {
 		HttpResponse response = sendRequest("init", request);
 		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
 			AppInitReply reply = gson.fromJson(reader, AppInitReply.class);
+			reply.checkReturnCode();
 			return reply.getPlaces(); 
 		}
 	}
 	
-	public List<Place> explore(String googleId) throws IOException {
+	public List<Place> explore(String googleId) throws IOException, ReplyException {
 		ExploreRequest request = new ExploreRequest();
 		request.setGoogleId(googleId);
 
 		HttpResponse response = sendRequest("explore", request);
 		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
 			ExploreReply reply = gson.fromJson(reader, ExploreReply.class);
+			reply.checkReturnCode();
 			return reply.getPlaces(); 
 		}
 	}	
 	
-	public void favourites(String googleId, int... favourites) throws IOException {
+	public void favourites(String googleId, int... favourites) throws IOException, ReplyException {
 		FavourRequest request = new FavourRequest();
 		request.setGoogleId(googleId);
 
@@ -89,10 +92,11 @@ public class PixplorerHttpClient {
 		HttpResponse response = sendRequest("favour", request);
 		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
 			ExploreReply reply = gson.fromJson(reader, ExploreReply.class);
+			reply.checkReturnCode();
 		}
 	}	
 
-	public FoundReply found(String googleId, int placeId, double longitude, double latitude) throws IOException {
+	public FoundReply found(String googleId, int placeId, double longitude, double latitude) throws IOException, ReplyException {
 		FoundRequest request = new FoundRequest();
 		request.setGoogleId(googleId);
 		request.setFoundPlace(placeId);
@@ -102,11 +106,12 @@ public class PixplorerHttpClient {
 		HttpResponse response = sendRequest("found", request);
 		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
 			FoundReply reply = gson.fromJson(reader, FoundReply.class);
+			reply.checkReturnCode();
 			return reply; 
 		}
 	}	
 		
-	public List<Place> search(String googleId, String filter) throws IOException {
+	public List<Place> search(String googleId, String filter) throws IOException, ReplyException {
 		SearchRequest request = new SearchRequest();
 		request.setGoogleId(googleId);
 		request.setFilter(filter);
@@ -114,23 +119,26 @@ public class PixplorerHttpClient {
 		HttpResponse response = sendRequest("search", request);
 		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
 			SearchReply reply = gson.fromJson(reader, SearchReply.class);
+			reply.checkReturnCode();
 			return reply.getPlaces(); 
 		}
 	}		
 	
-	public List<Place> special(String googleId) throws IOException {
+	public List<Place> special(String googleId) throws IOException, ReplyException {
 		SpecialRequest request = new SpecialRequest();
 		request.setGoogleId(googleId);
 
 		HttpResponse response = sendRequest("special", request);
 		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
 			SpecialReply reply = gson.fromJson(reader, SpecialReply.class);
+			reply.checkReturnCode();
+			
 			return reply.getPlaces(); 
 		}
 	}		
 	
 	
-	private HttpResponse sendRequest(String function, AbstractRequest request) throws IOException {
+	private HttpResponse sendRequest(String function, AbstractRequest request) throws IOException, ReplyException {
 		HttpPost post = new HttpPost(url + function);
 		post.setHeader("Content-type", "application/json");
 		post.setEntity(new StringEntity(gson.toJson(request)));

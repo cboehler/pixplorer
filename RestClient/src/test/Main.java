@@ -5,6 +5,7 @@ import java.util.List;
 
 import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.rest.PixplorerHttpClient;
+import at.ac.uibk.sepm.pixplorer.rest.msg.ReplyException;
 
 public class Main {
 
@@ -47,7 +48,7 @@ public class Main {
 			for (Place p : places) {
 				System.out.println(p.getName());
 			}
-		} catch (IOException e) {
+		} catch (IOException | ReplyException e) {
 			e.printStackTrace();
 		} finally {
 			client.close();
