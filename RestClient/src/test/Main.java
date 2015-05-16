@@ -12,7 +12,11 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/");
+		/* For using openshift*/
+		PixplorerHttpClient client = new PixplorerHttpClient("http://newpixplorer-sepm.rhcloud.com/pixplorer-web/rest/");
+		
+		/*For using localhost*/
+		//PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/");
 		
 		try {
 			List<Place> places = client.init("sampleuser@google.com", 1);

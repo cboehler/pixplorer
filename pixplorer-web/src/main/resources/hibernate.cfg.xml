@@ -5,7 +5,8 @@
  <session-factory>
   <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
   <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-  <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/pixplorer</property>
+  <property name="hibernate.connection.url">jdbc:postgresql://127.5.152.130:5432/pixplorer</property>
+  <!-- change localhost to '127.5.152.130' for Openshift and vice versa-->
   <property name="hibernate.connection.username">pixplorer</property> 
   <property name="hibernate.connection.password">pixplorer</property>
   <property name="current_session_context_class">thread</property>

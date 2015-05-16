@@ -35,7 +35,7 @@ public class Explore {
 			reply.setReturnCode(AbstractReply.RET_USER_NOT_FOUND);
 			return gson.toJson(reply);
 		}
-
+		/*?*/
 		if (users.isEmpty()) {
 			reply.setReturnCode(AbstractReply.RET_USER_NOT_FOUND);
 		} else {

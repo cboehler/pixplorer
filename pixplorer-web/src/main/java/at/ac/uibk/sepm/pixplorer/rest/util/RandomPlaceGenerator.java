@@ -14,7 +14,6 @@ import at.ac.uibk.sepm.pixplorer.db.User;
 
 import com.google.gson.Gson;
 
-@Path("/Random")
 public class RandomPlaceGenerator {
 
 	Gson gson = new Gson();
@@ -34,8 +33,8 @@ public class RandomPlaceGenerator {
 	public List<Place> getPlaces(User user,Integer amount, boolean special){
 		
 		Category category = null;
-		if(user.getType() == 0){
-			String filter = "where x.name = 'sight'";
+		if(user.getType() == UserType.TOURIST.getcode()){
+			String filter = "where x.name = 'SIGHT'";
 			category = PersistenceManager.get(Category.class,filter).get(0);
 		}		
 		Set<Place> excludeSet = user.getFavourites();
@@ -46,7 +45,12 @@ public class RandomPlaceGenerator {
 		for(Place p: excludeSet)
 			id_list.add(p.getId());
 		
+		/*Maybe get only a certain amount of places and ask for more if necessary*/
 		List<Place> places =  PersistenceManager.getAll(Place.class);
+		
+		System.out.println(places.get(0).getCategory().getName());
+		if(category!=null)
+		System.out.println(category.getName());
 		
 		List<Place> ret_places = new ArrayList<>();
 		Integer place_id;
@@ -60,7 +64,7 @@ public class RandomPlaceGenerator {
 			Place temp = places.get(place_id);	
 			
 			/*Get a new place while User has id in its favour or found places or place was already picked or categories don't match*/
-			while(temp.isFeatured() != special || id_list.contains(temp.getId()) || ((category!=null && temp.getCategory() != category))){
+			while(temp.isFeatured() != special || id_list.contains(temp.getId()) || ((category!=null && 0 != temp.getCategory().getName().compareTo( category.getName())))){
 				places.remove(places.get(place_id));
 				
 				if(places.size() == 0)
@@ -70,9 +74,13 @@ public class RandomPlaceGenerator {
 				temp = places.get(place_id);
 			}
 			
+			if(places.size() == 0)
+				break;
+			
 			ret_places.add(temp);
 			places.remove(places.get(place_id));
 		}
+		
 		
 		System.out.println(places.size());
 		
