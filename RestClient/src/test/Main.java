@@ -16,21 +16,22 @@ public class Main {
 		PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser@google.com");
 		
 		try {
-			List<Place> places = client.init(1);
+			List<Place> initPlaces = client.init(1);
+
+			for (Place p : initPlaces) {
+				System.out.println(p.getName());
+			}
+
+			List<Place>places = client.explore();
 
 			for (Place p : places) {
 				System.out.println(p.getName());
 			}
 
-			places = client.explore();
+			client.favourites(initPlaces.get(0).getId());
 
-			for (Place p : places) {
-				System.out.println(p.getName());
-			}
-
-			client.favourites(places.get(0).getId());
-
-			places = client.found(places.get(1).getId(), 0.0d, 1.0d).getPlaces();
+			Place place = initPlaces.get(1);
+			places = client.found(place.getId(), place.getGpsData().getLongitude(), place.getGpsData().getLatitude()).getPlaces();
 
 			for (Place p : places) {
 				System.out.println(p.getName());

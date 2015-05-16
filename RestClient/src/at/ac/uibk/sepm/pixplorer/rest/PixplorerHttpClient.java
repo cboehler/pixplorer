@@ -19,6 +19,7 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.ExploreReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.ExploreRequest;
+import at.ac.uibk.sepm.pixplorer.rest.msg.FavourReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.FavourRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.FoundReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.FoundRequest;
@@ -115,13 +116,13 @@ public class PixplorerHttpClient {
 
 		List<Integer> idList = new ArrayList<>();
 		for (int i = 0; i < favourites.length; i++) {
-			idList.add(i);
+			idList.add(favourites[i]);
 		}
 		request.setFavourites(idList);
 		
 		HttpResponse response = sendRequest("favour", request);
 		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
-			ExploreReply reply = gson.fromJson(reader, ExploreReply.class);
+			FavourReply reply = gson.fromJson(reader, FavourReply.class);
 			reply.checkReturnCode();
 		}
 	}	
