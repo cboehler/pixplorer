@@ -15,6 +15,7 @@ import at.ac.uibk.sepm.pixplorer.db.User;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AbstractReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.FoundReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.FoundRequest;
+import at.ac.uibk.sepm.pixplorer.rest.util.GpsUtils;
 import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
 
 import com.google.gson.Gson;
@@ -24,6 +25,9 @@ import com.google.gson.Gson;
 public class Found {
 	private static final Gson gson = new Gson();	
 
+	/** gps distance tolerance in meter */
+	private static final int TOLERANCE = 50;
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String found(String json) {
@@ -49,9 +53,13 @@ public class Found {
 		}
 		
 		Place place = places.get(0);
-		GPSData gps = place.getGpsData();
+		GPSData gpsReference = place.getGpsData();
 		
-		if (gps.getLatitude() != request.getLatitude() || gps.getLongitude() != request.getLongitude()) {
+		GPSData gpsUser = new GPSData();
+		gpsUser.setLatitude(request.getLatitude());
+		gpsUser.setLongitude(request.getLongitude());
+		
+		if (GpsUtils.calculateDistance(gpsReference, gpsUser) > TOLERANCE) {
 			reply.setReturnCode(AbstractReply.RET_INVALUD_COORDINATES);
 			return gson.toJson(reply);
 		}
