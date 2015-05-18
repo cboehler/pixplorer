@@ -45,7 +45,7 @@ public class Search {
 		
 		/*First check if User searches Places of a certain Category*/
 		for(Category c : categories){
-			if(c.getName().equals(request.getFilter())){
+			if(c.getName().equalsIgnoreCase(request.getFilter())){
 				filter = "where x.category = '" + c.getId() + "'";
 				break;	
 			}
@@ -53,7 +53,7 @@ public class Search {
 		
 		/*If user does't search for Places of a certain Category, search for Places starting with search_str*/
 		if (filter == null) {
-			filter = "where x.name like '" + request.getFilter() + "%'";			
+			filter = "where lower(x.name) like '" + request.getFilter().toLowerCase() + "%'";			
 		}
 		
 		List<Place> places = PersistenceManager.get(Place.class, filter);

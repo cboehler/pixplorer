@@ -56,6 +56,28 @@ public class SearchTest {
 	}	
 	
 	@Test
+	public void testSearchCaseInsensitive() {
+		SearchRequest request = new SearchRequest();
+		request.setGoogleId("max.mustermann@google.com");
+		request.setFilter("goldenes dachl");
+		
+		String json = gson.toJson(request);
+		
+		Search call = new Search();
+		String jsonReply = call.search(json);
+		
+		SearchReply reply = gson.fromJson(jsonReply, SearchReply.class);
+		try {
+			reply.checkReturnCode();
+			
+			Assert.assertEquals(25, reply.getPlaces().size());
+		} catch (ReplyException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}	
+	
+	@Test
 	public void testInvalidUser() {
 		SearchRequest request = new SearchRequest();
 		request.setGoogleId("invalid@google.com");
