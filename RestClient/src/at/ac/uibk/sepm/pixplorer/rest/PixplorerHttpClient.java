@@ -129,6 +129,23 @@ public class PixplorerHttpClient {
 		}
 	}	
 
+	public void deleteFavourites(int... favourites) throws IOException, ReplyException {
+		FavourRequest request = new FavourRequest();
+		request.setGoogleId(googleId);
+
+		List<Integer> idList = new ArrayList<>();
+		for (int i = 0; i < favourites.length; i++) {
+			idList.add(favourites[i]);
+		}
+		request.setFavourites(idList);
+		
+		HttpResponse response = sendRequest("delfavour", request);
+		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
+			FavourReply reply = gson.fromJson(reader, FavourReply.class);
+			reply.checkReturnCode();
+		}
+	}		
+	
 	public FoundReply found(int placeId, double longitude, double latitude) throws IOException, ReplyException {
 		FoundRequest request = new FoundRequest();
 		request.setGoogleId(googleId);
