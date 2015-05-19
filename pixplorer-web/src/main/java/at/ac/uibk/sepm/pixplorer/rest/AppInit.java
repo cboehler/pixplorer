@@ -119,7 +119,7 @@ public class AppInit {
 			case 2:
 				place.setName("Triumphpforte " + i);
 				place.setWikiLink("http://de.wikipedia.org/wiki/Triumphpforte");
-				place.setPicture("http://upload.wikimedia.org/wikipedia/commons/f/f7/Innsbruck_-_Triumphpforte2.jpg")
+				place.setPicture("http://upload.wikimedia.org/wikipedia/commons/f/f7/Innsbruck_-_Triumphpforte2.jpg");
 				break;
 			case 3:
 				place.setName("Kristallwelten " + i);
