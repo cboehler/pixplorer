@@ -10,6 +10,8 @@ public class UserInfoReply extends AbstractReply {
 	
 	private List<Place> foundPlaces = new ArrayList<>();
 	
+	private List<Place> favourites = new ArrayList<>();
+	
 	public long getScore() {
 		return score;
 	}
@@ -24,6 +26,14 @@ public class UserInfoReply extends AbstractReply {
 	
 	public void setFoundPlaces(List<Place> foundPlaces) {
 		this.foundPlaces = foundPlaces;
+	}
+	
+	public List<Place> getFavourites() {
+		return favourites;
+	}
+	
+	public void setFavourites(List<Place> favourites) {
+		this.favourites = favourites;
 	}
 	
 }

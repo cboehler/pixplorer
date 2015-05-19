@@ -8,14 +8,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
 import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
-import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.db.User;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AbstractReply;
-import at.ac.uibk.sepm.pixplorer.rest.msg.ExploreReply;
-import at.ac.uibk.sepm.pixplorer.rest.msg.ExploreRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.UserInfoReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.UserInfoRequest;
-import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
 
 import com.google.gson.Gson;
 
@@ -40,6 +36,7 @@ public class UserInfo {
 		User user = users.get(0);
 		reply.setScore(user.getScore());
 		reply.getFoundPlaces().addAll(user.getFoundPlaces());
+		reply.getFavourites().addAll(user.getFavourites());
 		
 		return gson.toJson(reply);		
 	}
