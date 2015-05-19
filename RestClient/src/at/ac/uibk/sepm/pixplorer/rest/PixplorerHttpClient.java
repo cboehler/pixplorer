@@ -28,6 +28,8 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.SearchReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SearchRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialRequest;
+import at.ac.uibk.sepm.pixplorer.rest.msg.UserInfoReply;
+import at.ac.uibk.sepm.pixplorer.rest.msg.UserInfoRequest;
 
 /**
  * Class that handles the server communication. A connection string and a google user
@@ -167,6 +169,19 @@ public class PixplorerHttpClient {
 			return reply.getPlaces(); 
 		}
 	}		
+	
+	public UserInfoReply getUserInfo() throws IOException, ReplyException {
+		UserInfoRequest request = new UserInfoRequest();
+		request.setGoogleId(googleId);
+
+		HttpResponse response = sendRequest("userinfo", request);
+		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
+			UserInfoReply reply = gson.fromJson(reader, UserInfoReply.class);
+			reply.checkReturnCode();
+			
+			return reply; 
+		}		
+	}
 	
 	/**
 	 * Method to send a http post request i.e. invoke a REST function.
