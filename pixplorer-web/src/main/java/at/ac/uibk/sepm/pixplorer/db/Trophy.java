@@ -89,4 +89,22 @@ public class Trophy implements Serializable {
 		this.code = code;
 	}
 	
+	@Override
+	public int hashCode() {
+		return 31 * name.hashCode() + 31 * description.hashCode() + code.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		
+		if (obj instanceof Trophy) {
+			Trophy trophy = (Trophy) obj;
+			return trophy.getId() == id;
+		}
+		
+		return false;
+	}
 }

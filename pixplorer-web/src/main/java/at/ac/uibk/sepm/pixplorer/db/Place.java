@@ -188,6 +188,11 @@ public class Place implements Serializable {
 	}
 	
 	@Override
+	public int hashCode() {
+		return 31 * name.hashCode() + 31 * wikiLink.hashCode() + picture.hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
