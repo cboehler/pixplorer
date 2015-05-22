@@ -9,7 +9,16 @@ import at.ac.uibk.sepm.pixplorer.db.Trophy;
 public class FoundReply extends AbstractReply {
 	private List<Trophy> trophies = new ArrayList<>();
 	private List<Place> places = new ArrayList<>();	
+	private boolean found;
 	
+	public boolean isFound() {
+		return found;
+	}
+
+	public void setFound(boolean found) {
+		this.found = found;
+	}
+
 	public List<Place> getPlaces() {
 		return places;
 	}

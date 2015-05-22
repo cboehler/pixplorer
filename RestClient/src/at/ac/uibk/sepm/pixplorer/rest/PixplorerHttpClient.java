@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 
 import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AbstractRequest;
+import at.ac.uibk.sepm.pixplorer.rest.msg.AppInfoReply;
+import at.ac.uibk.sepm.pixplorer.rest.msg.AppInfoRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitRequest;
 import at.ac.uibk.sepm.pixplorer.rest.msg.ExploreReply;
@@ -198,6 +200,19 @@ public class PixplorerHttpClient {
 			
 			return reply; 
 		}		
+	}
+	
+	public AppInfoReply getAppInfo() throws IOException, ReplyException{
+		AppInfoRequest request = new AppInfoRequest();
+		request.setGoogleId(googleId);
+		
+		HttpResponse response = sendRequest("appinfo", request);
+		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
+			AppInfoReply reply = gson.fromJson(reader, AppInfoReply.class);
+			reply.checkReturnCode();
+			
+			return reply; 
+		}	
 	}
 	
 	/**

@@ -61,6 +61,7 @@ public class Found {
 		
 		if (GpsUtils.calculateDistance(gpsReference, gpsUser) > TOLERANCE) {
 			reply.setReturnCode(AbstractReply.RET_INVALUD_COORDINATES);
+			reply.setFound(false);
 			return gson.toJson(reply);
 		}
 		
@@ -82,6 +83,7 @@ public class Found {
 		RandomPlaceGenerator generator = new RandomPlaceGenerator();
 		List<Place> newPlaces = generator.getPlaces(user,1);
 		reply.setPlaces(newPlaces);
+		reply.setFound(true);
 		
 		return gson.toJson(reply);		
 		

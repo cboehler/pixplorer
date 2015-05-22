@@ -5,6 +5,8 @@ import java.util.List;
 
 import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.rest.PixplorerHttpClient;
+import at.ac.uibk.sepm.pixplorer.rest.msg.AppInfoReply;
+import at.ac.uibk.sepm.pixplorer.rest.msg.FoundReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.ReplyException;
 
 public class Main {
@@ -13,22 +15,33 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		PixplorerHttpClient client = new PixplorerHttpClient("http://newpixplorer-sepm.rhcloud.com/pixplorer-web/rest/", "sampleuser@google.com");
+		//PixplorerHttpClient client = new PixplorerHttpClient("http://newpixplorer-sepm.rhcloud.com/pixplorer-web/rest/", "sampleuser@google.com");
+
+		PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser@google.com");
 		
 		try {
 			List<Place> initPlaces = client.init(1);
 
 			for (Place p : initPlaces) {
-				System.out.println(p.getName());
+				System.out.println(p.getPicture());
 			}
+			
+			AppInfoReply reply = client.getAppInfo();
+			System.out.println(reply.getAmountOfPlaces());
+			
+			Place place = initPlaces.get(1);
+			FoundReply found_reply = client.found(place.getId(), place.getGpsData().getLongitude(), place.getGpsData().getLatitude());
+			System.out.println(found_reply.isFound());
+			reply = client.getAppInfo();
+			System.out.println(reply.getAmountOfPlaces());
 
-			List<Place>places = client.explore();
+			/*List<Place>places = client.explore();
 
 			for (Place p : places) {
 				System.out.println(p.getName());
 			}
 
-			client.favourites(initPlaces.get(0).getId());
+			/*client.favourites(initPlaces.get(0).getId());
 
 			Place place = initPlaces.get(1);
 			places = client.found(place.getId(), place.getGpsData().getLongitude(), place.getGpsData().getLatitude()).getPlaces();
@@ -47,7 +60,7 @@ public class Main {
 
 			for (Place p : places) {
 				System.out.println(p.getName());
-			}
+			}*/
 		} catch (IOException | ReplyException e) {
 			e.printStackTrace();
 		} finally {
