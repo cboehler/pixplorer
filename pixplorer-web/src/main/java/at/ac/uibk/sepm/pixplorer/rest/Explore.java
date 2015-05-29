@@ -18,10 +18,21 @@ import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
 
 import com.google.gson.Gson;
 
+/**
+ * Web Service to explore new places. 
+ * 
+ * @author cbo, cfi
+ */
 @Path("/explore")
 public class Explore {
 	private static final Gson gson = new Gson();	
 
+	/**
+	 * Method is called when user decides to explore some new places.
+	 * 
+	 * @param json - JSON message from client
+	 * @return JSON reply to client
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String explore(String json){		

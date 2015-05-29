@@ -21,16 +21,30 @@ import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
 
 import com.google.gson.Gson;
 
-
+/**
+ * Web Service to check if the user has found a place. If so, it is checked
+ * if there are some new trophies for this user. The trophies are sent to the
+ * client so he can pass the trophy id to google play. 
+ * 
+ * @author cbo, cfi
+ */
 @Path("/found")
 public class Found {
+	/** placeholder that is substituted with the user id */
 	private static final String USER_PLACEHOLDER = "USERID";
 	
+	/** Gson reference */
 	private static final Gson gson = new Gson();	
 
 	/** gps distance tolerance in meter */
 	private static final int TOLERANCE = 50;
 	
+	/**
+	 * Method is called when user has found a place.
+	 * 
+	 * @param json - JSON message from client
+	 * @return JSON reply to client
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String found(String json) {

@@ -15,10 +15,21 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.UserInfoRequest;
 
 import com.google.gson.Gson;
 
+/**
+ * Web Service to provide user information. 
+ * 
+ * @author cbo, cfi
+ */
 @Path("/userinfo")
 public class UserInfo {
 	private static final Gson gson = new Gson();	
 
+	/**
+	 * Method is called when user information is requested by the app.
+	 * 
+	 * @param json - JSON message from client
+	 * @return JSON reply to client
+	 */	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String userInfo(String json) {

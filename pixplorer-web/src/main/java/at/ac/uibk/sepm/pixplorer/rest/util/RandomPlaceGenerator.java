@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import javax.ws.rs.Path;
-
 import at.ac.uibk.sepm.pixplorer.db.Category;
 import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
 import at.ac.uibk.sepm.pixplorer.db.Place;
@@ -14,7 +12,6 @@ import at.ac.uibk.sepm.pixplorer.db.User;
 
 import com.google.gson.Gson;
 
-@Path("/Random")
 public class RandomPlaceGenerator {
 
 	Gson gson = new Gson();

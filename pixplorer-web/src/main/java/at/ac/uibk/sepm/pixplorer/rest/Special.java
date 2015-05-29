@@ -17,11 +17,21 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.SpecialRequest;
 import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
 
+/**
+ * Web Service to handling special places. 
+ * 
+ * @author cbo, cfi
+ */
 @Path("special")
 public class Special {
 	private static final Gson gson = new Gson();	
 	
-	// Method handling a Client's Special Places Request
+	/**
+	 * Method is called when user wants some very special places..
+	 * 
+	 * @param json - JSON message from client
+	 * @return JSON reply to client
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String special(String json) {

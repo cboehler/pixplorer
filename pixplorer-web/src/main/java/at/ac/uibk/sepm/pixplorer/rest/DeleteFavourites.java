@@ -16,13 +16,24 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.FavourRequest;
 
 import com.google.gson.Gson;
 
+/**
+ * Web Service to delete user favourites. 
+ * 
+ * @author cbo, cfi
+ */
 @Path("/delfavour")
 public class DeleteFavourites {
 	private static final Gson gson = new Gson();	
 
+	/**
+	 * Method is called when user decides to delete some of his favourites.
+	 * 
+	 * @param json - JSON message from client
+	 * @return JSON reply to client
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String favour(String json){
+	public String deleteFavourites(String json){
 		FavourRequest request = gson.fromJson(json, FavourRequest.class);
 		FavourReply reply = new FavourReply();
 		

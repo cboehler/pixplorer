@@ -21,6 +21,10 @@ public class ReplyException extends Exception {
 		this.returnCode = returnCode;
 	}
 	
+	/**
+	 * Returns the return code of the exception.
+	 * @return return code defined in {@link AbstractReply}
+	 */
 	public int getReturnCode() {
 		return returnCode;
 	}

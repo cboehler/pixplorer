@@ -16,10 +16,21 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.FavourRequest;
 
 import com.google.gson.Gson;
 
+/**
+ * Web Service to mark places as favourite. 
+ * 
+ * @author cbo, cfi
+ */
 @Path("/favour")
 public class Favour {
 	private static final Gson gson = new Gson();	
 
+	/**
+	 * Method is called when user decides to mark some favourites.
+	 * 
+	 * @param json - JSON message from client
+	 * @return JSON reply to client
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String favour(String json){

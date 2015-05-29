@@ -44,6 +44,7 @@ public class PersistenceManager {
 	 * @param type - the class type representing the hibernate entity
 	 * @return database content or null
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> List<T> getAll(Class<T> type) {
 		if (sessionFactory == null) {
 			logger.log(Level.SEVERE, "No session factory set!");
@@ -73,6 +74,7 @@ public class PersistenceManager {
 	 * @param type - the class type representing the hibernate entity
 	 * @return database content or null
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> List<T> get(Class<T> type, String filter) {
 		if (sessionFactory == null) {
 			logger.log(Level.SEVERE, "No session factory set!");

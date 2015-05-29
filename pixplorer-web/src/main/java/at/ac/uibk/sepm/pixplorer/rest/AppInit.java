@@ -25,10 +25,15 @@ import com.google.gson.Gson;
  */
 @Path("/init")
 public class AppInit {
-	
+	/** Gson reference */
 	private static final Gson gson = new Gson();	
 	
-	//Method is called when Client opened App and decided to play as Tourist or Local	
+	/**
+	 * Method is called when Client opened App and decided to play as Tourist or Local
+	 * 
+	 * @param json - JSON message from client
+	 * @return JSON reply to client
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String init(String json){		

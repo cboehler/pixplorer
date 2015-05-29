@@ -23,10 +23,18 @@ public abstract class AbstractReply {
 	/** return code for reply */
 	private int returnCode = RET_OK;
 	
+	/**
+	 * Returns the code for this reply.
+	 * @return return code
+	 */
 	public int getReturnCode() {
 		return returnCode;
 	}
 	
+	/**
+	 * Sets the code for this reply.
+	 * @param returnCode - return code to set
+	 */	
 	public void setReturnCode(int returnCode) {
 		this.returnCode = returnCode;
 	}

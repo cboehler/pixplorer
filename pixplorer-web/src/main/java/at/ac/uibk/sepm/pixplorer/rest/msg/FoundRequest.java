@@ -1,8 +1,16 @@
 package at.ac.uibk.sepm.pixplorer.rest.msg;
 
+/**
+ * Request for found call.
+ * 
+ * @author cbo
+ */
 public class FoundRequest extends AbstractRequest {
+	/** id of the found place */
 	private int foundPlace;
+	/** gps longitude */
 	private double longitude;
+	/** gps latitude */
 	private double latitude;
 	
 	public int getFoundPlace() {

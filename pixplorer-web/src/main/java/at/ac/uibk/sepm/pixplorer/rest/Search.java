@@ -17,12 +17,21 @@ import at.ac.uibk.sepm.pixplorer.rest.msg.SearchRequest;
 
 import com.google.gson.Gson;
 
-
+/**
+ * Web Service to search for places. 
+ * 
+ * @author cbo, cfi
+ */
 @Path("/search")
 public class Search {	
 	private static final Gson gson = new Gson();	
 	
-	
+	/**
+	 * Method is called when user wants to search new places.
+	 * 
+	 * @param json - JSON message from client
+	 * @return JSON reply to client
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String search(String json){
@@ -36,8 +45,6 @@ public class Search {
 			reply.setReturnCode(AbstractReply.RET_USER_NOT_FOUND);
 			return gson.toJson(reply);
 		}
-		
-		User user = users.get(0);
 		
 		List<Category> categories = PersistenceManager.getAll(Category.class);
 		
