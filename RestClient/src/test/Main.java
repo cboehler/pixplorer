@@ -15,9 +15,9 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//PixplorerHttpClient client = new PixplorerHttpClient("http://newpixplorer-sepm.rhcloud.com/pixplorer-web/rest/", "sampleuser@google.com");
+		PixplorerHttpClient client = new PixplorerHttpClient("http://newpixplorer-sepm.rhcloud.com/pixplorer-web/rest/", "sampleuser@google.com");
 
-		PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser@google.com");
+		//PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser@google.com");
 		
 		try {
 			List<Place> initPlaces = client.init(1);
@@ -26,7 +26,7 @@ public class Main {
 				System.out.println(p.getPicture());
 			}
 			
-			AppInfoReply reply = client.getAppInfo();
+			/*AppInfoReply reply = client.getAppInfo();
 			System.out.println(reply.getAmountOfPlaces());
 			
 			Place place = initPlaces.get(1);
