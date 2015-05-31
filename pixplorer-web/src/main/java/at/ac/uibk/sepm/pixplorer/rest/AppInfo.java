@@ -48,18 +48,10 @@ public class AppInfo {
 			reply.setReturnCode(AbstractReply.RET_USER_NOT_FOUND);
 			return gson.toJson(reply);
 		}
-		
-		User user = users.get(0);
 			
-		List<Place> places;
+		List<Place> places = PersistenceManager.getAll(Place.class);
 		
-		if(user.getType() == User.TYPE_TOURIST) {
-			places = PersistenceManager.get(Place.class,"where x.category = 1");
-		} else {
-			places = PersistenceManager.getAll(Place.class);
-		}
-		
-		reply.setAmountOfPlaces(places.size()-user.getFoundPlaces().size());
+		reply.setAmountOfPlaces(places.size());
 		
 		return gson.toJson(reply);
 	}
