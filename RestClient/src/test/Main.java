@@ -23,8 +23,12 @@ public class Main {
 			List<Place> initPlaces = client.init(1);
 
 			for (Place p : initPlaces) {
-				System.out.println(p.getPicture());
+				System.out.println(p.getName());
 			}
+			
+			List<Place> searched = client.search("goldenes");
+			for(Place p : searched)
+				System.out.println(p.getName() + "\t" + p.getPicture());
 			
 			/*AppInfoReply reply = client.getAppInfo();
 			System.out.println(reply.getAmountOfPlaces());
