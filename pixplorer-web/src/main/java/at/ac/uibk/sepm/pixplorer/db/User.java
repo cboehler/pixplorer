@@ -32,10 +32,10 @@ import javax.persistence.Table;
 @Table(name = "users", schema = "public")
 public class User implements Serializable {
 	/** constant for user type tourist */
-	public static final int TYPE_TOURIST = 1;
+	public static final int TYPE_TOURIST = 0;
 	
 	/** constant for user type local */
-	public static final int TYPE_LOCAL = 2;
+	public static final int TYPE_LOCAL = 1;
 	
 	private int id;
 	private String googleId;
