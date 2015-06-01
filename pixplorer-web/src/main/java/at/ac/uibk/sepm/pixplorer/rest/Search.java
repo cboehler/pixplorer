@@ -60,7 +60,7 @@ public class Search {
 		
 		/*If user does't search for Places of a certain Category, search for Places starting with search_str*/
 		if (filter == null) {
-			filter = "where lower(x.name) like '" + request.getFilter().toLowerCase() + "%'";			
+			filter = "where lower(x.name) like '%" + request.getFilter().toLowerCase() + "%'";			
 		}
 		
 		List<Place> places = PersistenceManager.get(Place.class, filter);
