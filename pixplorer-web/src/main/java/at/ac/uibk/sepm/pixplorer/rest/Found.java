@@ -33,6 +33,9 @@ public class Found {
 	/** placeholder that is substituted with the user id */
 	private static final String USER_PLACEHOLDER = "USERID";
 	
+	/** if a featured place is found the user gets some extra points */
+	private static final int FEATURED_PLACE_EXTRA_SCORE = 50;
+	
 	/** Gson reference */
 	private static final Gson gson = new Gson();	
 
@@ -92,7 +95,12 @@ public class Found {
 		place.setCount(place.getCount() + 1);
 		
 		// update the user score
-		user.setScore(user.getScore() + place.getScore());
+		int score = place.getScore();
+		if (place.isFeatured()) {
+			score += FEATURED_PLACE_EXTRA_SCORE;
+		}
+		
+		user.setScore(user.getScore() + score);
 				
 		// create trophies if not existing
 		addTrophies();
