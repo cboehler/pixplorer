@@ -76,9 +76,11 @@ public class Found {
 		gpsUser.setLatitude(request.getLatitude());
 		gpsUser.setLongitude(request.getLongitude());
 		
-		if (GpsUtils.calculateDistance(gpsReference, gpsUser) > TOLERANCE) {
+		double distance = GpsUtils.calculateDistance(gpsReference, gpsUser);
+		
+		if (distance > TOLERANCE) {
 			reply.setReturnCode(AbstractReply.RET_INVALUD_COORDINATES);
-			reply.setFound(false);
+			reply.setDistanceDelta(Math.abs(distance - TOLERANCE));
 			return gson.toJson(reply);
 		}
 		
@@ -119,7 +121,6 @@ public class Found {
 		RandomPlaceGenerator generator = new RandomPlaceGenerator();
 		List<Place> newPlaces = generator.getPlaces(user,1);
 		reply.setPlaces(newPlaces);
-		reply.setFound(true);
 		
 		return gson.toJson(reply);		
 		
