@@ -18,17 +18,9 @@ public class FoundReply extends AbstractReply {
 	/** list containing new places for the user */
 	private List<Place> places = new ArrayList<>();	
 	
-	/** user has found the place */
-	private boolean found;
+	/** distance delta */
+	private double distanceDelta;
 	
-	public boolean isFound() {
-		return found;
-	}
-
-	public void setFound(boolean found) {
-		this.found = found;
-	}
-
 	public List<Place> getPlaces() {
 		return places;
 	}
@@ -43,5 +35,13 @@ public class FoundReply extends AbstractReply {
 	
 	public void setTrophies(List<Trophy> trophies) {
 		this.trophies = trophies;
+	}
+	
+	public double getDistanceDelta() {
+		return distanceDelta;
+	}
+	
+	public void setDistanceDelta(double distanceDelta) {
+		this.distanceDelta = distanceDelta;
 	}
 }
