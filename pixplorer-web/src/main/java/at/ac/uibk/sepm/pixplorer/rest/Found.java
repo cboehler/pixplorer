@@ -155,10 +155,10 @@ public class Found {
 		createTrophy("CgkI-d2H8pccEAIQDg", "achievement100000Points", "SELECT CAST(CASE WHEN SUM(p.score) >= 100000 THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;");
 		
 		// TODO: what is the meaning of those trophies???
-		createTrophy("CgkI-d2H8pccEAIQAw", "achievementTheTourist", "");
-		createTrophy("CgkI-d2H8pccEAIQBw", "achievementARealLocal", "");
-		createTrophy("CgkI-d2H8pccEAIQEA", "achievementTheAlcoholic", "");
-		createTrophy("CgkI-d2H8pccEAIQEQ", "achievementTheMountainjunkie", "");
+		createTrophy("CgkI-d2H8pccEAIQAw", "achievementTheTourist", "");//all sights found
+		createTrophy("CgkI-d2H8pccEAIQBw", "achievementARealLocal", "");//all places
+		createTrophy("CgkI-d2H8pccEAIQEA", "achievementTheAlcoholic", "");//all bars and restaurants
+		createTrophy("CgkI-d2H8pccEAIQEQ", "achievementTheMountainjunkie", "");//all from category mountain
 	}
 	
 	/**
