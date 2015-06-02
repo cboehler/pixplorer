@@ -44,4 +44,31 @@ public class AppInitTest {
 		}
 		
 	}
+	
+	@Test
+	public void changeUserType() {
+		AppInitRequest request = new AppInitRequest();
+		request.setGoogleId("max.mustermann123@google.com");
+		request.setOption(User.TYPE_TOURIST);
+		
+		String json = gson.toJson(request);
+		
+		AppInit call = new AppInit();
+		String jsonReply = call.init(json);
+		
+		AppInitReply reply = gson.fromJson(jsonReply, AppInitReply.class);
+		try {
+			reply.checkReturnCode();
+		} catch (ReplyException e) {
+			Assert.fail();
+		}		
+		
+		request.setOption(User.TYPE_LOCAL);
+		reply = gson.fromJson(jsonReply, AppInitReply.class);
+		try {
+			reply.checkReturnCode();
+		} catch (ReplyException e) {
+			Assert.fail();
+		}		
+	}
 }

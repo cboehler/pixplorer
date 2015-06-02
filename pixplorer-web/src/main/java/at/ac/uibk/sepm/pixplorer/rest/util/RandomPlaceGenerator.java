@@ -29,10 +29,9 @@ public class RandomPlaceGenerator {
 	}
 	
 	public List<Place> getPlaces(User user,Integer amount, boolean special){
-		
 		Category category = null;
-		if(user.getType() == 0){
-			String filter = "where x.name = 'sight'";
+		if(user.getType() == User.TYPE_TOURIST){
+			String filter = "where x.name = 'SIGHT'";
 			category = PersistenceManager.get(Category.class,filter).get(0);
 		}		
 		Set<Place> excludeSet = user.getFavourites();
@@ -68,7 +67,10 @@ public class RandomPlaceGenerator {
 			}
 			
 			ret_places.add(temp);
-			places.remove(places.get(place_id));
+			
+			if (!places.isEmpty()) {
+				places.remove(places.get(place_id));
+			}
 		}
 		
 		System.out.println(places.size());
