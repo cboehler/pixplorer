@@ -59,7 +59,7 @@ public class AppInit {
 		}
 		
 		// check if user type is different
-		if (user.getType() != request.getOption()) {
+		if (user.getType() != option) {
 			user.setType(option);
 			PersistenceManager.save(user);
 		}

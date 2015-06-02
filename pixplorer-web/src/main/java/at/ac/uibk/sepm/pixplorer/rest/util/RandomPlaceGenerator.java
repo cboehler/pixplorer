@@ -29,11 +29,18 @@ public class RandomPlaceGenerator {
 	}
 	
 	public List<Place> getPlaces(User user,Integer amount, boolean special){
-		Category category = null;
+		
+		
+		List<Place> places = null;
+		
+		//Determine if User plays as Tourist -> Show only Places of Category Sights then
 		if(user.getType() == User.TYPE_TOURIST){
 			String filter = "where x.name = 'SIGHT'";
-			category = PersistenceManager.get(Category.class,filter).get(0);
-		}		
+			Category cat = PersistenceManager.get(Category.class, filter).get(0);
+			filter = "where x.category = '" + cat.getId() + "'";
+			places = PersistenceManager.get(Place.class,filter);
+		}	
+		
 		Set<Place> excludeSet = user.getFavourites();
 		excludeSet.addAll(user.getFoundPlaces());
 		
@@ -42,7 +49,8 @@ public class RandomPlaceGenerator {
 		for(Place p: excludeSet)
 			id_list.add(p.getId());
 		
-		List<Place> places =  PersistenceManager.getAll(Place.class);
+		if(places == null)
+			places =  PersistenceManager.getAll(Place.class);
 		
 		List<Place> ret_places = new ArrayList<>();
 		Integer place_id;
@@ -55,8 +63,8 @@ public class RandomPlaceGenerator {
 			place_id = random.nextInt(places.size());
 			Place temp = places.get(place_id);	
 			
-			/*Get a new place while User has id in its favour or found places or place was already picked or categories don't match*/
-			while(temp.isFeatured() != special || id_list.contains(temp.getId()) || ((category!=null && temp.getCategory() != category))){
+			/*Get a new place while User has id in its favour or found places or place was already picked*/
+			while(temp.isFeatured() != special || id_list.contains(temp.getId())){
 				places.remove(places.get(place_id));
 				
 				if(places.size() == 0)
@@ -73,7 +81,7 @@ public class RandomPlaceGenerator {
 			}
 		}
 		
-		System.out.println(places.size());
+		//System.out.println(places.size());
 		
 		return ret_places;
 	}

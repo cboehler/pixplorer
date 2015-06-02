@@ -50,7 +50,7 @@ return array(
 
 		// database settings are configured in database.php
 		'db' => array(
-			'connectionString' => 'pgsql:host=localhost;port=5432;dbname=pixplorer',
+			'connectionString' => 'pgsql:host=127.5.152.130;port=5432;dbname=pixplorer',
 			'username' => 'pixplorer',
 			'password' => 'pixplorer',
 		),

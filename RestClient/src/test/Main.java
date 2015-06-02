@@ -15,7 +15,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		PixplorerHttpClient client = new PixplorerHttpClient("http://newpixplorer-sepm.rhcloud.com/pixplorer-web/rest/", "sampleuser@google.com");
+		PixplorerHttpClient client = new PixplorerHttpClient("http://newpixplorer-sepm.rhcloud.com/pixplorer-web/rest/", "sample@google.com");
 
 		//PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser@google.com");
 		
@@ -23,10 +23,16 @@ public class Main {
 			List<Place> initPlaces = client.init(1);
 
 			for (Place p : initPlaces) {
-				System.out.println(p.getName());
+				System.out.println(p.getName()+ "\t" + p.getCategory().getName());
 			}
 			
-			List<Place> searched = client.search("goldenes");
+			initPlaces = client.explore();
+			
+			for (Place p : initPlaces) {
+				System.out.println(p.getName() + "\t" + p.getCategory().getName());
+			}
+			
+			List<Place> searched = client.search("Museum");
 			for(Place p : searched)
 				System.out.println(p.getName() + "\t" + p.getPicture());
 			

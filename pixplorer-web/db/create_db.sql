@@ -57,6 +57,9 @@ GRANT ALL ON TABLE trophies_id_seq TO pixplorer;
 CREATE SEQUENCE usertrophymapping_id_seq INCREMENT 1 START 1;
 GRANT ALL ON TABLE usertrophymapping_id_seq TO pixplorer;
 
+CREATE SEQUENCE wi_user_id_seq INCREMENT 1 START 1;
+GRANT ALL ON TABLE wi_user_id_seq TO pixplorer;
+
 -- create all tables and all constraints, set the table owner toname equisse and grant all
 
 CREATE TABLE gpsdata 
@@ -156,4 +159,20 @@ CREATE TABLE usertrophymapping
 
 ALTER TABLE usertrophymapping OWNER TO pixplorer;
 GRANT ALL ON TABLE usertrophymapping TO pixplorer;
+
+CREATE TABLE wi_user
+(
+  id integer NOT NULL DEFAULT nextval(('wi_user_id_seq'::text)::regclass),
+  username character varying(128) NOT NULL,
+  password character varying(128) NOT NULL,
+  email character varying(128) NOT NULL,
+  CONSTRAINT wi_user_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE wi_user OWNER TO pixplorer;
+GRANT ALL ON TABLE wi_user TO pixplorer;
+
+
 
