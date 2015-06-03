@@ -28,7 +28,7 @@ public class SearchTest {
 		try {
 			reply.checkReturnCode();
 			
-			Assert.assertEquals(100, reply.getPlaces().size());
+			Assert.assertEquals(10, reply.getPlaces().size());
 		} catch (ReplyException e) {
 			Assert.fail();
 		}
@@ -49,7 +49,7 @@ public class SearchTest {
 		try {
 			reply.checkReturnCode();
 			
-			Assert.assertEquals(25, reply.getPlaces().size());
+			Assert.assertEquals(1, reply.getPlaces().size());
 		} catch (ReplyException e) {
 			Assert.fail();
 		}
@@ -70,7 +70,7 @@ public class SearchTest {
 		try {
 			reply.checkReturnCode();
 			
-			Assert.assertEquals(25, reply.getPlaces().size());
+			Assert.assertEquals(1, reply.getPlaces().size());
 		} catch (ReplyException e) {
 			e.printStackTrace();
 			Assert.fail();
