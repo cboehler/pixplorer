@@ -105,7 +105,11 @@ public class Found {
 		// create trophies if not existing
 		addTrophies();
 		
+		PersistenceManager.save(user);
+		
 		// check if a new trophy was achieved by this user
+		boolean newTrophy = false;
+		
 		List<Trophy> trophies = PersistenceManager.getAll(Trophy.class);
 		for (Trophy trophy : trophies) {
 			if (trophy.getCode().isEmpty()) {
@@ -119,11 +123,17 @@ public class Found {
 					// update db and add new trophy to the reply
 					user.getTrophies().add(trophy);
 					reply.getTrophies().add(trophy);
+					
+					newTrophy = true;
 				}
 			}
 		}
 		
-		PersistenceManager.save(user);
+		// save new trophies in db as well
+		if (newTrophy) {
+			PersistenceManager.save(user);
+		}
+		
 		
 		/*Get randomplaces from RandomplaceGenerator*/
 		RandomPlaceGenerator generator = new RandomPlaceGenerator();
@@ -144,7 +154,7 @@ public class Found {
 			return;
 		}
 		
-		createTrophy("CgkI-d2H8pccEAIQAQ", "achievementTheBeginner", "SELECT CAST(CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
+		createTrophy("CgkI-d2H8pccEAIQAQ", "achievementTheBeginner", "SELECT CAST(CASE WHEN COUNT(*) = 1 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
 		createTrophy("CgkI-d2H8pccEAIQAg", "achievementTheLooser", "SELECT CAST(CASE WHEN COUNT(*) = 0 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
 		createTrophy("CgkI-d2H8pccEAIQBQ", "achievement10Times", "SELECT CAST(CASE WHEN COUNT(*) >= 10 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
 		createTrophy("CgkI-d2H8pccEAIQBg", "achievement100Times", "SELECT CAST(CASE WHEN COUNT(*) >= 100 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");

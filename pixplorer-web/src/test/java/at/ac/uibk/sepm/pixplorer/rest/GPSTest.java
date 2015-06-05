@@ -22,11 +22,8 @@ public class GPSTest {
 		Place p = PersistenceManager.get(Place.class, "where x.name = 'Stadtcafe'").get(0);
 		
 		request.setFoundPlace(p.getId());
-//		request.setLatitude(47.2663478);
-//		request.setLongitude(11.3621918);
-
-		request.setLongitude(47.2663478);
-		request.setLatitude(11.3621918);		
+		request.setLatitude(47.2663478);
+		request.setLongitude(11.3621918);	
 		
 		String json = gson.toJson(request);
 		
