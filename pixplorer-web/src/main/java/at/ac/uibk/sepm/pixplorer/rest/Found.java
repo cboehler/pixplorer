@@ -105,7 +105,7 @@ public class Found {
 		// create trophies if not existing
 		addTrophies();
 		
-		PersistenceManager.save(user);
+		PersistenceManager.save(place, user);
 		
 		// check if a new trophy was achieved by this user
 		boolean newTrophy = false;
@@ -155,20 +155,22 @@ public class Found {
 		}
 		
 		createTrophy("CgkI-d2H8pccEAIQAQ", "achievementTheBeginner", "SELECT CAST(CASE WHEN COUNT(*) = 1 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
-		createTrophy("CgkI-d2H8pccEAIQAg", "achievementTheLooser", "SELECT CAST(CASE WHEN COUNT(*) = 0 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
-		createTrophy("CgkI-d2H8pccEAIQBQ", "achievement10Times", "SELECT CAST(CASE WHEN COUNT(*) >= 10 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
-		createTrophy("CgkI-d2H8pccEAIQBg", "achievement100Times", "SELECT CAST(CASE WHEN COUNT(*) >= 100 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
-		createTrophy("CgkI-d2H8pccEAIQDw", "achievement500Times", "SELECT CAST(CASE WHEN COUNT(*) >= 500 THEN 1 ELSE 0 END AS BIT) FROM history AS h WHERE h.user_id = USERID;");
 		createTrophy("CgkI-d2H8pccEAIQDA", "achievement100Points", "SELECT CAST(CASE WHEN SUM(p.score) >= 100 THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;");
 		createTrophy("CgkI-d2H8pccEAIQBA", "achievement1000Points", "SELECT CAST(CASE WHEN SUM(p.score) >= 1000 THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;");
 		createTrophy("CgkI-d2H8pccEAIQDQ", "achievement10000Points", "SELECT CAST(CASE WHEN SUM(p.score) >= 10000 THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;");
 		createTrophy("CgkI-d2H8pccEAIQDg", "achievement100000Points", "SELECT CAST(CASE WHEN SUM(p.score) >= 100000 THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;");
 		
-		// TODO: what is the meaning of those trophies???
-		createTrophy("CgkI-d2H8pccEAIQAw", "achievementTheTourist", "");//all sights found
-		createTrophy("CgkI-d2H8pccEAIQBw", "achievementARealLocal", "");//all places
-		createTrophy("CgkI-d2H8pccEAIQEA", "achievementTheAlcoholic", "");//all bars and restaurants
-		createTrophy("CgkI-d2H8pccEAIQEQ", "achievementTheMountainjunkie", "");//all from category mountain
+		createTrophy("CgkI-d2H8pccEAIQAw", "achievementTheTourist", "SELECT CAST(CASE WHEN COUNT(*) = (SELECT COUNT(*) FROM places AS p JOIN (SELECT * FROM categories WHERE name='SIGHT') AS c ON p.category = c.id) "
+				+ "THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN (SELECT * FROM categories WHERE name='SIGHT') AS c ON p.category = c.id JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;");
+		
+		createTrophy("CgkI-d2H8pccEAIQBw", "achievementARealLocal", "SELECT CAST(CASE WHEN COUNT(*) = (SELECT COUNT(*) FROM places AS p JOIN categories AS c ON p.category = c.id) "
+				+ "THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN categories AS c ON p.category = c.id JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;");
+		
+		createTrophy("CgkI-d2H8pccEAIQEA", "achievementTheAlcoholic", "SELECT CAST(CASE WHEN COUNT(*) = (SELECT COUNT(*) FROM places AS p JOIN (SELECT * FROM categories WHERE name='BAR' OR name='RESTAURANT') AS c ON p.category = c.id) "
+				+ "THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN (SELECT * FROM categories WHERE name='BAR' OR name='RESTAURANT') AS c ON p.category = c.id JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;"); 
+		
+		createTrophy("CgkI-d2H8pccEAIQEQ", "achievementTheMountainjunkie", "SELECT CAST(CASE WHEN COUNT(*) = (SELECT COUNT(*) FROM places AS p JOIN (SELECT * FROM categories WHERE name='MOUNTAIN') AS c ON p.category = c.id) "
+				+ "THEN 1 ELSE 0 END AS BIT) FROM places AS p JOIN (SELECT * FROM categories WHERE name='MOUNTAIN') AS c ON p.category = c.id JOIN history AS h ON p.id = h.place_id WHERE h.user_id = USERID;");
 	}
 	
 	/**

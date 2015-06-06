@@ -108,7 +108,7 @@ public class User implements Serializable {
 		this.admin = admin;
 	}
 	
-    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
     @JoinTable(name = "usertrophymapping", joinColumns = { @JoinColumn(name = "user_id") }, 
               inverseJoinColumns = { @JoinColumn(name = "trophy_id") })
     public Set<Trophy> getTrophies() {
@@ -119,7 +119,7 @@ public class User implements Serializable {
         this.trophies = trophies;
     }
     
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
 	@JoinTable(name = "history", joinColumns = { 
 			@JoinColumn(name = "user_id", nullable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "place_id", 
@@ -132,7 +132,7 @@ public class User implements Serializable {
         this.places = places;
     }
     
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
 	@JoinTable(name = "favourites", joinColumns = { 
 			@JoinColumn(name = "user_id", nullable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "place_id", 
