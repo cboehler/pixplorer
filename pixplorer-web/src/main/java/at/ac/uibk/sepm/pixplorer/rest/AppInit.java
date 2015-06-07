@@ -167,7 +167,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);
-			place.setFeatured(false);
+			place.setFeatured(true);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Kristallwelten");
 			place.setWikiLink("http://de.wikipedia.org/wiki/Swarovski_Kristallwelten");
@@ -439,7 +439,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(false);
+			place.setFeatured(true);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("HungerburgBahn");
 			place.setWikiLink("http://de.wikipedia.org/wiki/Hungerburgbahn");
@@ -461,7 +461,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(false);
+			place.setFeatured(true);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Nordkette");
 			place.setWikiLink("http://de.wikipedia.org/wiki/Inntalkette");
@@ -524,7 +524,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(false);
+			place.setFeatured(true);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Adlers Bar");
 			place.setWikiLink("");
@@ -631,7 +631,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(false);
+			place.setFeatured(true);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Skatehalle");
 			place.setWikiLink("");
@@ -735,7 +735,7 @@ public class AppInit {
 			PersistenceManager.save(place);			
 			
 			
-						//Home Leo Südtirol
+			//Home Leo Südtirol
 			gps = new GPSData();
 			gps.setLongitude(11.877246);
 			gps.setLatitude(46.716950);
@@ -762,7 +762,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(false);
+			place.setFeatured(true);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Home WG");
 			place.setWikiLink("http://de.wikipedia.org/wiki/Wohngemeinschaft");

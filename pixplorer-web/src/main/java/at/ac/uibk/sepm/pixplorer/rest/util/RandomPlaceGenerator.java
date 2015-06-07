@@ -33,56 +33,50 @@ public class RandomPlaceGenerator {
 		
 		List<Place> places = null;
 		
-		//Determine if User plays as Tourist -> Show only Places of Category Sights then
+		//Determine if User plays as Tourist -> Consider only Places of Category Sights then
 		if(user.getType() == User.TYPE_TOURIST){
 			String filter = "where x.name = 'SIGHT'";
 			Category cat = PersistenceManager.get(Category.class, filter).get(0);
-			filter = "where x.category = '" + cat.getId() + "'";
+			filter = "where x.category = " + cat.getId();
 			places = PersistenceManager.get(Place.class,filter);
 		}	
-		
-		Set<Place> excludeSet = user.getFavourites();
-		excludeSet.addAll(user.getFoundPlaces());
-		
-		List<Integer> id_list = new ArrayList<Integer>();
-		
-		for(Place p: excludeSet)
-			id_list.add(p.getId());
-		
+				
+		//If User plays as Local, all Places must be considered
 		if(places == null)
 			places =  PersistenceManager.getAll(Place.class);
 		
-		List<Place> ret_places = new ArrayList<>();
-		Integer place_id;
+		//Get Places the User has already marked as favored or even found to exclude them 
+		Set<Place> excludeSet = user.getFavourites();
+		excludeSet.addAll(user.getFoundPlaces());
 		
+		//Create List of Places to return
+		List<Place> ret_places = new ArrayList<>();
+		
+		//Fill return-list by iterating as long as its full or no Places are left
 		for(int i = 0; i< amount ; i++){
 			
 			if(places.size() == 0)
 				break;
 			
-			place_id = random.nextInt(places.size());
-			Place temp = places.get(place_id);	
+			Place temp = places.get(random.nextInt(places.size()));	
 			
 			/*Get a new place while User has id in its favour or found places or place was already picked*/
-			while(temp.isFeatured() != special || id_list.contains(temp.getId())){
-				places.remove(places.get(place_id));
+			while(temp.isFeatured() != special || excludeSet.contains(temp)){
+				places.remove(temp);
 				
-				if(places.size() == 0)
+				if(places.isEmpty())
 					break;				
 				
-				place_id = random.nextInt(places.size());
-				temp = places.get(place_id);
+				temp = places.get(random.nextInt(places.size()));
 			}
-			
-			ret_places.add(temp);
 			
 			if (!places.isEmpty()) {
-				places.remove(places.get(place_id));
+				ret_places.add(temp);
+				places.remove(temp);
 			}
+			
+			
 		}
-		
-		//System.out.println(places.size());
-		
 		return ret_places;
 	}
 	

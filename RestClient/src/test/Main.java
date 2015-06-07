@@ -17,24 +17,43 @@ public class Main {
 	public static void main(String[] args) {
 		PixplorerHttpClient client = new PixplorerHttpClient("http://newpixplorer-sepm.rhcloud.com/pixplorer-web/rest/", "sample@google.com");
 
-		//PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser@google.com");
+		//PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser1@google.com");
 		
 		try {
 			List<Place> initPlaces = client.init(0);
+			
+			/*for (Place p : initPlaces) {
+				System.out.println(p.getName()+ "\t" + p.getCategory().getName());
+			}*/
+			
+			List<Place> places = client.special();
+			
+			
 
-			for (Place p : initPlaces) {
+			for (Place p : places) {
 				System.out.println(p.getName()+ "\t" + p.getCategory().getName());
 			}
 			
+
+			/*for(int i = 0; i <10 ; i++){
+
+				System.out.println("----------------Round"+(i+1)+"-------------------------");
+						
 			initPlaces = client.explore();
 			
 			for (Place p : initPlaces) {
 				System.out.println(p.getName() + "\t" + p.getCategory().getName());
+				client.found(p.getId(), p.getGpsData().getLongitude(), p.getGpsData().getLatitude());
 			}
 			
-			List<Place> searched = client.search("Museum");
+
+			System.out.println("-------------------------------------------------");
+			System.out.println();
+			}*/
+			
+			/*List<Place> searched = client.search("Museum");
 			for(Place p : searched)
-				System.out.println(p.getName() + "\t" + p.getPicture());
+				System.out.println(p.getName() + "\t" + p.getPicture());*/
 			
 			/*AppInfoReply reply = client.getAppInfo();
 			System.out.println(reply.getAmountOfPlaces());

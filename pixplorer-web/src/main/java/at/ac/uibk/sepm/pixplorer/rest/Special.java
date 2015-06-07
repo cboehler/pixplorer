@@ -50,8 +50,7 @@ public class Special {
 
 		RandomPlaceGenerator generator = new RandomPlaceGenerator();
 		
-		// TODO Christian: flag wieder auf true setzen dafür Algorithmus fixen (IndexOutOfBoundsException)
-		List<Place> places = generator.getPlaces(user, 5, false);  
+		List<Place> places = generator.getPlaces(user, 5, true);  
 		reply.setPlaces(places);
 		
 		return gson.toJson(reply);
