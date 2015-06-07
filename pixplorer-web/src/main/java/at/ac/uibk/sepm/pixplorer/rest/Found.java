@@ -134,13 +134,15 @@ public class Found {
 			PersistenceManager.save(user);
 		}
 		
-		
-		/*Get randomplaces from RandomplaceGenerator*/
-		RandomPlaceGenerator generator = new RandomPlaceGenerator();
-		List<Place> newPlaces = generator.getPlaces(user,1);
-		reply.setPlaces(newPlaces);
-		
-		return gson.toJson(reply);		
+		try {
+			List<Place> newPlaces = RandomPlaceGenerator.getPlaces(user,1);
+			reply.setPlaces(newPlaces);
+			
+			return gson.toJson(reply);
+		} catch (Exception e) {
+			reply.setReturnCode(AbstractReply.RET_VERY_EVIL);
+			return gson.toJson(reply);			
+		}
 		
 	}
 	

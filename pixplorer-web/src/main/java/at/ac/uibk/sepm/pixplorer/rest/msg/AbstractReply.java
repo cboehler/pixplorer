@@ -20,6 +20,9 @@ public abstract class AbstractReply {
 	/** user hasn't found this place */
 	public static final int RET_INVALUD_COORDINATES = -3;
 	
+	/** for debug reasons */
+	public static final int RET_VERY_EVIL = 666;
+	
 	/** return code for reply */
 	private int returnCode = RET_OK;
 	

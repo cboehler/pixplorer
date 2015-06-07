@@ -51,9 +51,13 @@ public class Explore {
 			reply.setReturnCode(AbstractReply.RET_USER_NOT_FOUND);
 		} else {
 			User user = users.get(0);
-			RandomPlaceGenerator generator = new RandomPlaceGenerator();
-			List<Place> places = generator.getPlaces(user,10);
-			reply.setPlaces(places);
+
+			try {
+				List<Place> places = RandomPlaceGenerator.getPlaces(user,10);
+				reply.setPlaces(places);
+			} catch (Exception e) {
+				reply.setReturnCode(AbstractReply.RET_VERY_EVIL);			
+			}
 		}
 		
 		return gson.toJson(reply);
