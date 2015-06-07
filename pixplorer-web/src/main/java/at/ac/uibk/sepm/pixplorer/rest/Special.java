@@ -47,14 +47,16 @@ public class Special {
 		}
 		
 		User user = users.get(0);
-
-		RandomPlaceGenerator generator = new RandomPlaceGenerator();
 		
-		List<Place> places = generator.getPlaces(user, 5, true);  
-		reply.setPlaces(places);
-		
-		return gson.toJson(reply);
-
+		try {
+			List<Place> places = RandomPlaceGenerator.getPlaces(user, 5, true);  
+			reply.setPlaces(places);
+			
+			return gson.toJson(reply);
+		} catch (Exception e) {
+			reply.setReturnCode(AbstractReply.RET_VERY_EVIL);
+			return gson.toJson(reply);			
+		}
 	}
 
 }

@@ -14,8 +14,7 @@ import com.google.gson.Gson;
 
 public class RandomPlaceGenerator {
 
-	Gson gson = new Gson();
-	Random random = new Random();	
+	public static final Random random = new Random();	
 	
 	/**
 	 * 
@@ -24,11 +23,11 @@ public class RandomPlaceGenerator {
 	 * @return
 	 */
 	
-	public List<Place> getPlaces(User user, Integer amount){
-		return this.getPlaces(user, amount, false);
+	public static List<Place> getPlaces(User user, Integer amount){
+		return getPlaces(user, amount, false);
 	}
 	
-	public List<Place> getPlaces(User user,Integer amount, boolean special){
+	public static List<Place> getPlaces(User user,Integer amount, boolean special){
 		
 		
 		List<Place> places = null;
@@ -79,6 +78,12 @@ public class RandomPlaceGenerator {
 		}
 		return ret_places;
 	}
+	
+	private RandomPlaceGenerator() {
+		// do not instantiate
+	}
+	
+	
 	
 
 }

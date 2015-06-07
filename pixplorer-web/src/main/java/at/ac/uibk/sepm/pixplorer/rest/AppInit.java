@@ -13,6 +13,7 @@ import at.ac.uibk.sepm.pixplorer.db.GPSData;
 import at.ac.uibk.sepm.pixplorer.db.PersistenceManager;
 import at.ac.uibk.sepm.pixplorer.db.Place;
 import at.ac.uibk.sepm.pixplorer.db.User;
+import at.ac.uibk.sepm.pixplorer.rest.msg.AbstractReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitReply;
 import at.ac.uibk.sepm.pixplorer.rest.msg.AppInitRequest;
 import at.ac.uibk.sepm.pixplorer.rest.util.RandomPlaceGenerator;
@@ -65,13 +66,17 @@ public class AppInit {
 		}
 		
 		// generate some new places for the user
-		RandomPlaceGenerator generator = new RandomPlaceGenerator();
-		List<Place> places = generator.getPlaces(user , 10);
-		
 		AppInitReply reply = new AppInitReply();
-		reply.setPlaces(places);
 		
-		return gson.toJson(reply);
+		try {
+			List<Place> places = RandomPlaceGenerator.getPlaces(user , 10);	
+			reply.setPlaces(places);
+			
+			return gson.toJson(reply);
+		} catch (Exception e) {
+			reply.setReturnCode(AbstractReply.RET_VERY_EVIL);
+			return gson.toJson(reply);			
+		}
 	}
 
 	/**
