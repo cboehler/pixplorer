@@ -158,7 +158,7 @@ public class PixplorerHttpClient {
 		HttpResponse response = sendRequest("found", request);
 		try (InputStreamReader reader = new InputStreamReader(response.getEntity().getContent());) {
 			FoundReply reply = gson.fromJson(reader, FoundReply.class);
-			reply.checkReturnCode();
+//			reply.checkReturnCode();
 			return reply; 
 		}
 	}	
@@ -224,10 +224,12 @@ public class PixplorerHttpClient {
 	 * @throws IOException if the server communication fails
 	 */
 	private HttpResponse sendRequest(String function, AbstractRequest request) throws IOException {
-		HttpPost post = new HttpPost(url + function);
-		post.setHeader("Content-type", "application/json");
-		post.setEntity(new StringEntity(gson.toJson(request)));
-		
-		return client.execute(post);
+		synchronized (client) {
+			HttpPost post = new HttpPost(url + function);
+			post.setHeader("Content-type", "application/json");
+			post.setEntity(new StringEntity(gson.toJson(request)));
+			
+			return client.execute(post);
+		}
 	}
 }

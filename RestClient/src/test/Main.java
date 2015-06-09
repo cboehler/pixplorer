@@ -22,6 +22,14 @@ public class Main {
 		try {
 			List<Place> initPlaces = client.init(0);
 			
+			Place place = initPlaces.get(0);
+			
+			for (int i = 0; i < 100; i++) {
+			FoundReply reply = client.found(place.getId(), 0.0d, 0.0d);
+			
+			int returnCode = reply.getReturnCode();
+			}
+			
 			/*for (Place p : initPlaces) {
 				System.out.println(p.getName()+ "\t" + p.getCategory().getName());
 			}*/
