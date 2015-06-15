@@ -172,7 +172,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);
-			place.setFeatured(true);
+			place.setFeatured(false);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Kristallwelten");
 			place.setWikiLink("http://de.wikipedia.org/wiki/Swarovski_Kristallwelten");
@@ -444,7 +444,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(true);
+			place.setFeatured(false);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("HungerburgBahn");
 			place.setWikiLink("http://de.wikipedia.org/wiki/Hungerburgbahn");
@@ -466,7 +466,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(true);
+			place.setFeatured(false);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Nordkette");
 			place.setWikiLink("http://de.wikipedia.org/wiki/Inntalkette");
@@ -529,7 +529,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(true);
+			place.setFeatured(false);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Adlers Bar");
 			place.setWikiLink("");
@@ -636,7 +636,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(true);
+			place.setFeatured(false);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Skatehalle");
 			place.setWikiLink("");
@@ -740,7 +740,42 @@ public class AppInit {
 			PersistenceManager.save(place);			
 			
 			
-			//Home Leo Südtirol
+			//eingang rechenräume UNI
+			gps = new GPSData();
+			gps.setLongitude(11.3435366);
+			gps.setLatitude(47.233291);
+			PersistenceManager.save(gps);
+			place = new Place();
+			place.setCategory(cat);
+			place.setGpsData(gps);
+			place.setCount(0);	
+			place.setFeatured(false);
+			place.setModificationDate(System.currentTimeMillis());
+			place.setName("Eingang rechenräume");
+			place.setWikiLink("");
+			place.setPicture("https://lh3.googleusercontent.com/-WMmxKbz1Y4o/VXV6RZ0qzVI/AAAAAAAAALQ/3KmWPJSyU1E/s800/Computerraum.jpg");
+			place.setScore(random.nextInt((maxpoints-minpoints)+minpoints));
+			PersistenceManager.save(place);			
+			
+			//eingang arichtektur gebäude
+						gps = new GPSData();
+			gps.setLongitude(11.344725);
+			gps.setLatitude(47.263725);
+			PersistenceManager.save(gps);
+			place = new Place();
+			place.setCategory(cat);
+			place.setGpsData(gps);
+			place.setCount(0);	
+			place.setFeatured(false);
+			place.setModificationDate(System.currentTimeMillis());
+			place.setName("Home Leo Innsbruck");
+			place.setWikiLink("http://de.wikipedia.org/wiki/Leo");
+			place.setPicture("https://lh3.googleusercontent.com/-v_p8TGF9oIQ/VXV6RHOI8uI/AAAAAAAAALM/jZeOZBccAV0/s800/architektur.jpg");
+			place.setScore(random.nextInt((maxpoints-minpoints)+minpoints));
+			PersistenceManager.save(place);			
+			
+			
+						//Home Leo Südtirol
 			gps = new GPSData();
 			gps.setLongitude(11.877246);
 			gps.setLatitude(46.716950);
@@ -767,7 +802,7 @@ public class AppInit {
 			place.setCategory(cat);
 			place.setGpsData(gps);
 			place.setCount(0);	
-			place.setFeatured(true);
+			place.setFeatured(false);
 			place.setModificationDate(System.currentTimeMillis());
 			place.setName("Home WG");
 			place.setWikiLink("http://de.wikipedia.org/wiki/Wohngemeinschaft");
@@ -867,4 +902,4 @@ public class AppInit {
 			
 		}
 }
-	
+		

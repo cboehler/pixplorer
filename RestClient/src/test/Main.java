@@ -20,7 +20,7 @@ public class Main {
 		//PixplorerHttpClient client = new PixplorerHttpClient("http://localhost:8080/pixplorer-web/rest/", "sampleuser1@google.com");
 		
 		try {
-			List<Place> initPlaces = client.init(0);
+			List<Place> initPlaces = client.init(1);
 			
 			/*for (Place p : initPlaces) {
 				System.out.println(p.getName()+ "\t" + p.getCategory().getName());
